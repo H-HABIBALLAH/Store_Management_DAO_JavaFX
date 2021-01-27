@@ -1,0 +1,31 @@
+.mainWindow{
+    -fx-background-image : url("store-bg.jpg");
+}
+
+.formTitle{
+    -fx-background-color: red;
+    -fx-text-fill: #f7f7f7;
+    -fx-font-size: 50.0 px;
+    -fx-font-family: "Times New Roman";
+    -fx-alignment: center;
+    -fx-padding: 20px;
+}
+
+.formLabel{
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
+
+.btn{
+    -fx-min-height: 30px;
+    -fx-min-width: 30px;
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+    -fx-border-radius: 40px;
+}
+
+.btn:hover{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
