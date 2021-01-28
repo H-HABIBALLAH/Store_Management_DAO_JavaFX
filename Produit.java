@@ -5,14 +5,14 @@ import java.time.LocalDate;
 
 public class Produit {
     private long id;
-    private String description;
+    private String designation;
     private int quantity;
     private double prix;
     private LocalDate date;
 
-    public Produit(long id, String description, int quantity, double prix, LocalDate date) {
+    public Produit(long id, String designation, int quantity, double prix, LocalDate date) {
         this.id = id;
-        this.description = description;
+        this.designation = designation;
         this.quantity = quantity;
         this.prix = prix;
         this.date = date;
@@ -26,12 +26,12 @@ public class Produit {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesignation() {
+        return designation;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesignation(String description) {
+        this.designation = description;
     }
 
     public int getQuantity() {
@@ -61,7 +61,7 @@ public class Produit {
     @Override
     public String toString() {
         return   id +
-                ", " + description +
+                ", " + designation +
                 ", " + quantity +
                 ", " + prix +
                 ", " + date ;
