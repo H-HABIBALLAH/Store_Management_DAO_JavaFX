@@ -7,6 +7,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Application{
     BorderPane root=new BorderPane();
     Scene scene=new Scene(root);
@@ -24,7 +27,7 @@ public class Main extends Application{
             new FormProduitWindow();
         });
         listeProduitsMenuItem.setOnAction(e -> {
-            System.out.println("new product clicked");
+            new ListProduitWindow();
         });
         nouveauClientMenuItem.setOnAction(e -> {
             System.out.println("new product clicked");

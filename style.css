@@ -2,7 +2,7 @@
     -fx-background-image : url("store-bg.jpg");
 }
 
-.formTitle{
+.sceneTitle{
     -fx-background-color: red;
     -fx-text-fill: #f7f7f7;
     -fx-font-size: 50.0 px;
@@ -28,4 +28,5 @@
     -fx-background-color: black;
     -fx-text-fill: white;
 }
+
 

@@ -28,10 +28,10 @@ class FormProduitWindow {
     private Button annuler=new Button("Annuler");
     HBox buttonLine=new HBox(20);
     ProduitDaoImpl pdao=new ProduitDaoImpl();
-    Produit produitAjoute=null;
+    Produit produit=null;
 
     private void addStylesToNodes(){
-        titleLabel.getStyleClass().add("formTitle");
+        titleLabel.getStyleClass().add("sceneTitle");
         designation.getStyleClass().add("formLabel");
         quantite.getStyleClass().add("formLabel");
         dateSaisie.getStyleClass().add("formLabel");
@@ -52,8 +52,8 @@ class FormProduitWindow {
             e.consume();
         });
         ajouter.setOnAction(e ->{
-            produitAjoute=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixInput.getText()),dateSaisieInput.getValue());
-            pdao.add(produitAjoute);
+            produit=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixInput.getText()),dateSaisieInput.getValue());
+            pdao.add(produit);
             window.close();
         });
         annuler.setOnAction(e -> {
