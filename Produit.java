@@ -3,13 +3,13 @@ package StoreManagement;
 import java.util.Date;
 
 public class Produit {
-    private int id;
+    private long id;
     private String description;
     private int quantity;
     private double prix;
     private Date date;
 
-    public Produit(int id, String description, int quantity, double prix, Date date) {
+    public Produit(long id, String description, int quantity, double prix, Date date) {
         this.id = id;
         this.description = description;
         this.quantity = quantity;
@@ -17,11 +17,11 @@ public class Produit {
         this.date = date;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -55,5 +55,14 @@ public class Produit {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return   id +
+                ", " + description +
+                ", " + quantity +
+                ", " + prix +
+                ", " + date ;
     }
 }
