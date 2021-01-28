@@ -1,4 +1,4 @@
-package com.StoreManagement;
+package StoreManagement;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -39,7 +39,7 @@ public class Main extends Application{
 
     private void addStylesToNodes(){
        root.getStyleClass().add("mainWindow");
-       scene.getStylesheets().add("/com/StoreManagement/style.css");
+       scene.getStylesheets().add("/StoreManagement/style.css");
     }
 
     private void createMenu(){

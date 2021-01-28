@@ -1,4 +1,4 @@
-package com.StoreManagement;
+package StoreManagement;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -35,7 +35,7 @@ class FormProduitWindow {
         quantite.getStyleClass().add("formLabel");
         dateSaisie.getStyleClass().add("formLabel");
         prix.getStyleClass().add("formLabel");
-        scene.getStylesheets().add("/com/StoreManagement/style.css");
+        scene.getStylesheets().add("/StoreManagement/style.css");
         ajouter.getStyleClass().add("btn");
         annuler.getStyleClass().add("btn");
         titleLabel.setMinWidth(window.getWidth());
@@ -47,6 +47,12 @@ class FormProduitWindow {
     }
 
     private void addEvents(){
+        window.setOnCloseRequest(e->{
+            e.consume();
+        });
+        ajouter.setOnAction(e ->{
+
+        });
         annuler.setOnAction(e -> {
             window.close();
         });
