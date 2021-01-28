@@ -9,7 +9,6 @@ public class ProduitDataAccess {
     String user="root";
     String pwd="";
     String url="jdbc:mysql://localhost:3306/"+db;
-
     Connection connection;
 
     public ProduitDataAccess() {
@@ -32,7 +31,25 @@ public class ProduitDataAccess {
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date")));
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate()));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    public List<Produit> getProductByKeyWord(String searched){
+        List<Produit> list = new ArrayList<Produit>();
+        PreparedStatement pst=null;
+        String sql = "SELECT * FROM produit WHERE designation LIKE ?";
+        try {
+            pst=connection.prepareStatement(sql);
+            pst.setNString(1,searched+"%");
+            System.out.println("Success d'exec requete");
+            ResultSet rs=pst.executeQuery();
+            while (rs.next()){
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate()));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

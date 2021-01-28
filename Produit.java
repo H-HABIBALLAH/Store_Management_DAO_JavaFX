@@ -1,15 +1,16 @@
 package StoreManagement;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class Produit {
     private long id;
     private String description;
     private int quantity;
     private double prix;
-    private Date date;
+    private LocalDate date;
 
-    public Produit(long id, String description, int quantity, double prix, Date date) {
+    public Produit(long id, String description, int quantity, double prix, LocalDate date) {
         this.id = id;
         this.description = description;
         this.quantity = quantity;
@@ -49,11 +50,11 @@ public class Produit {
         this.prix = prix;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
