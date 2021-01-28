@@ -1,5 +1,7 @@
 package StoreManagement;
 
+import java.sql.Connection;
+
 public class AbstractDao {
-    SingleConnection singleConnection;
+    Connection connection=SingleConnection.getConnection();
 }

@@ -3,9 +3,10 @@ package StoreManagement;
 import java.util.List;
 
 public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
-    @Override
-    public void add(Object obj) {
 
+    @Override
+    public void add(Produit obj) {
+        
     }
 
     @Override
@@ -14,12 +15,12 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
     }
 
     @Override
-    public Object getOne(long id) {
+    public Produit getOne(long id) {
         return null;
     }
 
     @Override
-    public List getAll(Object obj) {
+    public List<Produit> getAll(Produit obj) {
         return null;
     }
 
