@@ -9,6 +9,7 @@ public class Produit {
     private int quantity;
     private double prix;
     private LocalDate date;
+    private double sTotal;
 
     public Produit(long id, String designation, int quantity, double prix, LocalDate date) {
         this.id = id;
@@ -16,6 +17,7 @@ public class Produit {
         this.quantity = quantity;
         this.prix = prix;
         this.date = date;
+        this.sTotal= this.prix*this.quantity;
     }
 
     public long getId() {
@@ -58,12 +60,22 @@ public class Produit {
         this.date = date;
     }
 
+    public double getSTotal() {
+        return sTotal;
+    }
+
+    public void setSTotal(double sTotal) {
+        sTotal=this.quantity*this.prix;
+        this.sTotal = sTotal;
+    }
+
     @Override
     public String toString() {
         return   id +
                 ", " + designation +
                 ", " + quantity +
                 ", " + prix +
-                ", " + date ;
+                ", " + date +
+                ", " + getSTotal();
     }
 }

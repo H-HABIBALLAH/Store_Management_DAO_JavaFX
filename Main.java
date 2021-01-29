@@ -30,13 +30,13 @@ public class Main extends Application{
             new ListProduitWindow();
         });
         nouveauClientMenuItem.setOnAction(e -> {
-            System.out.println("new product clicked");
+            System.out.println("new client clicked");
         });
         listeClientsMenuItem.setOnAction(e -> {
-            System.out.println("new product clicked");
+            System.out.println("client list clicked");
         });
         helpMenuItem.setOnAction(e -> {
-            System.out.println("new product clicked");
+            System.out.println("help clicked");
         });
     }
 

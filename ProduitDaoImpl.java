@@ -12,13 +12,14 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
     @Override
     public void add(Produit obj) {
         PreparedStatement pst=null;
-        String sql = "INSERT INTO produit (designation, qte, prix, date) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO produit (designation, qte, prix, date, stotal) VALUES (?,?,?,?,?)";
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1,obj.getDesignation());
             pst.setInt(2,obj.getQuantity());
             pst.setDouble(3,obj.getPrix());
             pst.setDate(4, Date.valueOf(obj.getDate()));
+            pst.setDouble(5, obj.getPrix()*obj.getQuantity());
             pst.executeUpdate();
             System.out.println("Success d'exec requete");
         } catch (SQLException e) {
