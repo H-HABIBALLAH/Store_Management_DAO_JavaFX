@@ -1,4 +1,4 @@
-package StoreManagement.IHM;
+package StoreManagement.DAO;
 
 import StoreManagement.DAO.Produit;
 
