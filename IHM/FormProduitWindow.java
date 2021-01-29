@@ -1,5 +1,7 @@
-package StoreManagement;
+package StoreManagement.IHM;
 
+import StoreManagement.DAO.Produit;
+import StoreManagement.DAO.ProduitDaoImpl;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;

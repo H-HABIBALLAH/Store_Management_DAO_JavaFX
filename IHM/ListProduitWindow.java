@@ -1,5 +1,7 @@
-package StoreManagement;
+package StoreManagement.IHM;
 
+import StoreManagement.DAO.Produit;
+import StoreManagement.DAO.ProduitDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -13,7 +15,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListProduitWindow {

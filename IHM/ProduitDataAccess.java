@@ -1,4 +1,6 @@
-package StoreManagement;
+package StoreManagement.IHM;
+
+import StoreManagement.DAO.Produit;
 
 import java.sql.*;
 import java.util.ArrayList;

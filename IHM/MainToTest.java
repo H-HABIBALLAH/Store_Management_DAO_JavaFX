@@ -1,8 +1,9 @@
-package StoreManagement;
+package StoreManagement.IHM;
 
-import java.sql.Date;
+import StoreManagement.DAO.Produit;
+import StoreManagement.DAO.ProduitDaoImpl;
+
 import java.time.LocalDate;
-import java.util.List;
 
 public class MainToTest {
     public static void main(String[] args) {

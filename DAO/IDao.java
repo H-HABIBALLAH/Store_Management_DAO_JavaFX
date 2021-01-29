@@ -1,4 +1,4 @@
-package StoreManagement;
+package StoreManagement.DAO;
 
 import java.util.List;
 
