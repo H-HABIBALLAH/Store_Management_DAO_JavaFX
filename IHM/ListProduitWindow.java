@@ -19,7 +19,6 @@ import java.util.List;
 
 public class ListProduitWindow {
 
-    ProduitDaoImpl pdao=new ProduitDaoImpl();
 
     Stage window = new Stage();
     private VBox root=new VBox(10);
@@ -36,6 +35,8 @@ public class ListProduitWindow {
     TableColumn<Produit, LocalDate> dateColumn=new TableColumn<>("Date");
     TableColumn<Produit,Double> sTotalColumn=new TableColumn<>("STotal");
     ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
+
+    ProduitsListHandler produitsListHandler = new ProduitsListHandler(this);
 
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
@@ -91,10 +92,6 @@ public class ListProduitWindow {
         table.setItems(productsObservableList);
     }
 
-    private void getProduit(){
-        List<Produit> productsList = pdao.getAll();
-        productsObservableList.addAll(productsList);
-    }
 
     private void calculerTotal(){
         double total=0;
@@ -109,7 +106,7 @@ public class ListProduitWindow {
         addStylesToNodes();
         updateColmuns();
         addColumnsToTableView();
-        getProduit();
+        produitsListHandler.updateProduitsListWIndow();
         calculerTotal();
         addNodesToPane();
         window.show();
