@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-class FormProduitWindow {
+public class FormProduitWindow {
 
     private VBox root=new VBox(10);
     private Scene scene=new Scene(root);
@@ -70,7 +70,7 @@ class FormProduitWindow {
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
-    FormProduitWindow(){
+    public FormProduitWindow(){
         initiWindow();
         addStylesToNodes();
         addNodesToWindow();

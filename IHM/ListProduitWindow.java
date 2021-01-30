@@ -1,10 +1,10 @@
 package StoreManagement.IHM;
 
 import StoreManagement.DAO.Produit;
-import StoreManagement.DAO.ProduitDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,7 +15,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class ListProduitWindow {
 
@@ -38,6 +37,11 @@ public class ListProduitWindow {
 
     ProduitsListHandler produitsListHandler = new ProduitsListHandler(this);
 
+    Button deleteButton = new Button("Delete");
+    Button deleteAllButton = new Button("Delete all");
+    Button modifyButton = new Button("Modify");
+    HBox buttonsHBox=new HBox(20);
+
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
         titleLabel.getStyleClass().add("sceneTitle");
@@ -52,16 +56,19 @@ public class ListProduitWindow {
 
     private void addNodesToPane(){
         totalHBox.getChildren().addAll(totalLabel,totalLabelValue);
-        root.getChildren().addAll(titleLabel,table,totalHBox);
+        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton);
+        root.getChildren().addAll(titleLabel,table,totalHBox,buttonsHBox);
     }
 
     private void addEvents(){
-
+        deleteButton.setOnAction(e->{
+            new DeleteProduitWindow(this);
+        });
     }
 
     private void initiWindow(){
         window.setWidth(1100);
-        window.setHeight(700);
+        window.setHeight(900);
         window.setScene(scene);
         window.initModality(Modality.APPLICATION_MODAL);
     }
@@ -69,7 +76,7 @@ public class ListProduitWindow {
 
     private void updateColmuns(){
         idColumn.setCellValueFactory(new PropertyValueFactory("id"));
-        idColumn.setMinWidth(100);
+        idColumn.setMinWidth(50);
 
         designationColumn.setCellValueFactory(new PropertyValueFactory("designation"));
         designationColumn.setMinWidth(250);
@@ -85,6 +92,8 @@ public class ListProduitWindow {
 
         sTotalColumn.setCellValueFactory(new PropertyValueFactory("sTotal"));
         sTotalColumn.setMinWidth(150);
+
+
     }
 
     private void addColumnsToTableView(){
@@ -101,7 +110,7 @@ public class ListProduitWindow {
         totalLabelValue.setText(total+"");
     }
 
-    ListProduitWindow(){
+    public ListProduitWindow(){
         initiWindow();
         addStylesToNodes();
         updateColmuns();
@@ -109,6 +118,7 @@ public class ListProduitWindow {
         produitsListHandler.updateProduitsListWIndow();
         calculerTotal();
         addNodesToPane();
+        addEvents();
         window.show();
     }
 }
