@@ -64,6 +64,12 @@ public class ListProduitWindow {
         deleteButton.setOnAction(e->{
             new DeleteProduitWindow(this);
         });
+        deleteAllButton.setOnAction(e->{
+            new DeleteAllProduitWindow(this);
+        });
+        modifyButton.setOnAction(e->{
+            new ModifyProduitWindow(this);
+        });
     }
 
     private void initiWindow(){
