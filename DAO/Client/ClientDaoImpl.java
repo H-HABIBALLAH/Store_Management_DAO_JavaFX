@@ -93,14 +93,14 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
     public void update(Client Client) {
         List<Client> list = new ArrayList<Client>();
         PreparedStatement pst=null;
-        String sql = "UPDATE Client SET designation = ?, prix = ?, qte = ?, stotal = ? , date = ? WHERE id = ?";
+        String sql = "UPDATE Client SET nom = ?, prenom = ?, age = ? , date = ?  WHERE id = ?";
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1,Client.getNom());
             pst.setString(2,Client.getPrenom());
             pst.setInt(3,Client.getAge());
-            pst.setDate(5, Date.valueOf(Client.getDate()));
-            pst.setLong(6, Client.getId());
+            pst.setDate(4, Date.valueOf(Client.getDate()));
+            pst.setLong(5, Client.getId());
             System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {

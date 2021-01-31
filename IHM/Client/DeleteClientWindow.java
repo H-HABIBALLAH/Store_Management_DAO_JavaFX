@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class DeleteProduitWindow {
+public class DeleteClientWindow {
     private Stage window=new Stage();
     private BorderPane root=new BorderPane();
     private Scene scene=new Scene(root);
@@ -18,7 +18,7 @@ public class DeleteProduitWindow {
     private Label idLabel=new Label("id : ");
     private TextField idTextField=new TextField();
     private Button okButton=new Button("OK");
-    ListProduitWindow listProduitWindow=null;
+    ListClientWindow listClientWindow =null;
 
 
     private void addNodesToPane(){
@@ -33,7 +33,7 @@ public class DeleteProduitWindow {
 
     private void addEventsToNodes(){
         okButton.setOnAction(e->{
-            new DeleteProduitHandler(idTextField.getText(),listProduitWindow);
+            new DeleteClientHandler(idTextField.getText(), listClientWindow);
             window.close();
 
         });
@@ -46,8 +46,8 @@ public class DeleteProduitWindow {
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
-    public DeleteProduitWindow(ListProduitWindow listProduitsWindow){
-        listProduitWindow=listProduitsWindow;
+    public DeleteClientWindow(ListClientWindow listClientsWindow){
+        listClientWindow =listClientsWindow;
         initiWindow();
         addNodesToPane();
         addEventsToNodes();

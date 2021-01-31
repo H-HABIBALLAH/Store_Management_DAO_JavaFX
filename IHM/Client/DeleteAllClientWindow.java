@@ -10,17 +10,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class DeleteAllProduitWindow {
+public class DeleteAllClientWindow {
 
         private Stage window=new Stage();
         private BorderPane root=new BorderPane();
         private Scene scene=new Scene(root);
         private VBox vBox=new VBox(20);
         private HBox buttonHBox=new HBox(20);
-        private Label questionLabel=new Label("Voulez-vous vraiment supprimer tous les produits ?");
+        private Label questionLabel=new Label("Voulez-vous vraiment supprimer tous les Clients ?");
         private Button ouiButton=new Button("OUI");
         private Button nonButton=new Button("NON");
-        ListProduitWindow listProduitWindow=null;
+        ListClientWindow listClientWindow=null;
 
 
         private void addNodesToPane(){
@@ -35,7 +35,7 @@ public class DeleteAllProduitWindow {
 
         private void addEventsToNodes(){
             ouiButton.setOnAction(e->{
-                new DeleteAllClientHandler(listProduitWindow);
+                new DeleteAllClientHandler(listClientWindow);
             });
             nonButton.setOnAction(e->{
                 window.close();
@@ -49,8 +49,8 @@ public class DeleteAllProduitWindow {
             window.initModality(Modality.APPLICATION_MODAL);
         }
 
-    public DeleteAllProduitWindow(ListProduitWindow listProduitsWindow){
-            listProduitWindow=listProduitsWindow;
+    public DeleteAllClientWindow(ListClientWindow listClientsWindow){
+            listClientWindow=listClientsWindow;
             initiWindow();
             addNodesToPane();
             addEventsToNodes();

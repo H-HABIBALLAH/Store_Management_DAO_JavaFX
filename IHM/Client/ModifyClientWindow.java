@@ -1,6 +1,6 @@
 package StoreManagement.IHM.Client;
 
-import StoreManagement.DAO.Produit.Produit;
+import StoreManagement.DAO.Client.Client;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,40 +15,40 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
-public class ModifyProduitWindow {
+public class ModifyClientWindow {
     private Stage window=new Stage();
     private BorderPane root=new BorderPane();
     private Scene scene=new Scene(root);
     private VBox vBox=new VBox(20);
     private HBox idHBox=new HBox(20);
-    private HBox quantiteHBox=new HBox(20);
-    private HBox prixHBox=new HBox(20);
+    private HBox prenomHBox=new HBox(20);
+    private HBox nomHBox=new HBox(20);
+    private HBox ageHBox=new HBox(20);
     private HBox dateHBox=new HBox(20);
-    private HBox designationHBox=new HBox(20);
     private HBox buttonsHBox=new HBox(20);
     private Label idLabel=new Label("Id : ");
-    private Label quantiteLabel=new Label("Quantite : ");
-    private Label designationLabel=new Label("Designation : ");
-    private Label prixLabel=new Label("Prix : ");
+    private Label ageLabel=new Label("Age : ");
+    private Label nomLabel=new Label("Nom : ");
+    private Label prenomLabel=new Label("Prenom : ");
     private Label dateLabel=new Label("Date : ");
     private TextField idTextField=new TextField();
-    private TextField designationTextField=new TextField();
-    private TextField quantiteTextField=new TextField();
-    private TextField prixTextField=new TextField();
+    private TextField nomTextField=new TextField();
+    private TextField prenomTextField=new TextField();
+    private TextField ageTextField=new TextField();
     private DatePicker datePiecker=new DatePicker();
     private Button validerButton=new Button("Valider");
     private Button annulerButton=new Button("Annuler");
-    ListProduitWindow listProduitWindow=null;
+    ListClientWindow listClientWindow =null;
 
 
     private void addNodesToPane(){
         idHBox.getChildren().addAll(idLabel,idTextField);
-        designationHBox.getChildren().addAll(designationLabel,designationTextField);
-        quantiteHBox.getChildren().addAll(quantiteLabel,quantiteTextField);
-        prixHBox.getChildren().addAll(prixLabel,prixTextField);
+        nomHBox.getChildren().addAll(nomLabel,nomTextField);
+        prenomHBox.getChildren().addAll(prenomLabel,prenomTextField);
+        ageHBox.getChildren().addAll(ageLabel,ageTextField);
         dateHBox.getChildren().addAll(dateLabel,datePiecker);
         buttonsHBox.getChildren().addAll(validerButton,annulerButton);
-        vBox.getChildren().addAll(idHBox,designationHBox,quantiteHBox,prixHBox,dateHBox,buttonsHBox);
+        vBox.getChildren().addAll(idHBox,nomHBox, prenomHBox, ageHBox, dateHBox, buttonsHBox);
         root.setCenter(vBox);
     }
 
@@ -59,11 +59,11 @@ public class ModifyProduitWindow {
     private void addEventsToNodes(){
         validerButton.setOnAction(e->{
             Long id = Long.valueOf(idTextField.getText());
-            String designation  = designationTextField.getText();
-            Double prix = Double.valueOf(prixTextField.getText());
-            Integer quantite = Integer.valueOf(quantiteTextField.getText());
+            String nom  = nomTextField.getText();
+            String prenom  = prenomTextField.getText();
+            Integer age = Integer.valueOf(ageTextField.getText());
             LocalDate date = datePiecker.getValue();
-            new modifyProduitHandler(new Produit(id,designation,quantite,prix,date),listProduitWindow);
+            new modifyClientHandler(new Client(id, nom, prenom, age, date), listClientWindow);
             window.close();
         });
         annulerButton.setOnAction(e->{
@@ -78,8 +78,8 @@ public class ModifyProduitWindow {
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
-    public ModifyProduitWindow(ListProduitWindow listProduitsWindow) {
-        listProduitWindow=listProduitsWindow;
+    public ModifyClientWindow(ListClientWindow listClientsWindow) {
+        listClientWindow =listClientsWindow;
         initiWindow();
         addNodesToPane();
         addEventsToNodes();

@@ -16,7 +16,7 @@ public class FormProduitWindow {
 
     private VBox root=new VBox(10);
     private Scene scene=new Scene(root);
-    private Stage window=new Stage();
+    Stage window=new Stage();
     private Label titleLabel=new Label("Ajouter un produit");
     private Label designation=new Label("Designation :");
     private TextField designationInput= new TextField();
@@ -55,8 +55,7 @@ public class FormProduitWindow {
         });
         ajouter.setOnAction(e ->{
             produit=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixInput.getText()),dateSaisieInput.getValue());
-            pdao.add(produit);
-            window.close();
+            new FormProduitHandler(produit,this);
         });
         annuler.setOnAction(e -> {
             window.close();

@@ -1,4 +1,6 @@
 package StoreManagement.IHM;
+import StoreManagement.IHM.Client.FormClientWindow;
+import StoreManagement.IHM.Client.ListClientWindow;
 import StoreManagement.IHM.Produit.FormProduitWindow;
 import StoreManagement.IHM.Produit.ListProduitWindow;
 import javafx.application.Application;
@@ -29,10 +31,10 @@ public class MainWindow extends Application{
             new ListProduitWindow();
         });
         nouveauClientMenuItem.setOnAction(e -> {
-            System.out.println("new client clicked");
+            new FormClientWindow();
         });
         listeClientsMenuItem.setOnAction(e -> {
-            System.out.println("client list clicked");
+            new ListClientWindow();
         });
         helpMenuItem.setOnAction(e -> {
             System.out.println("help clicked");

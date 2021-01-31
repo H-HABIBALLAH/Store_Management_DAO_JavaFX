@@ -1,7 +1,7 @@
 package StoreManagement.IHM.Client;
 
-import StoreManagement.DAO.Produit.Produit;
-import StoreManagement.DAO.Produit.ProduitDaoImpl;
+import StoreManagement.DAO.Client.Client;
+import StoreManagement.DAO.Client.ClientDaoImpl;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -12,32 +12,32 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class FormProduitWindow {
+public class FormClientWindow {
 
     private VBox root=new VBox(10);
     private Scene scene=new Scene(root);
-    private Stage window=new Stage();
-    private Label titleLabel=new Label("Ajouter un produit");
-    private Label designation=new Label("Designation :");
-    private TextField designationInput= new TextField();
-    private Label prix=new Label("Prix :");
-    private TextField prixInput= new TextField();
-    private Label quantite=new Label("Quantité :");
-    private TextField quantiteInput= new TextField();
+    Stage window=new Stage();
+    private Label titleLabel=new Label("Ajouter un Client");
+    private Label prenomLabel=new Label("Prenom :");
+    private Label nomLabel=new Label("Nom :");
+    private TextField prenomInput= new TextField();
+    private TextField nomInput= new TextField();
+    private Label ageLabel=new Label("Age :");
+    private TextField ageInput= new TextField();
     private Label dateSaisie=new Label("Date saisie :");
     private DatePicker dateSaisieInput= new DatePicker();
     private Button ajouter=new Button("Ajouter");
     private Button annuler=new Button("Annuler");
     HBox buttonLine=new HBox(20);
-    ProduitDaoImpl pdao=new ProduitDaoImpl();
-    Produit produit=null;
+    ClientDaoImpl cdao=new ClientDaoImpl();
+    Client Client=null;
 
     private void addStylesToNodes(){
         titleLabel.getStyleClass().add("sceneTitle");
-        designation.getStyleClass().add("formLabel");
-        quantite.getStyleClass().add("formLabel");
+        nomLabel.getStyleClass().add("formLabel");
+        prenomLabel.getStyleClass().add("formLabel");
+        ageLabel.getStyleClass().add("formLabel");
         dateSaisie.getStyleClass().add("formLabel");
-        prix.getStyleClass().add("formLabel");
         scene.getStylesheets().add("/StoreManagement/style.css");
         ajouter.getStyleClass().add("btn");
         annuler.getStyleClass().add("btn");
@@ -46,7 +46,7 @@ public class FormProduitWindow {
 
     private void addNodesToWindow(){
         buttonLine.getChildren().addAll(ajouter,annuler);
-        root.getChildren().addAll(titleLabel,designation,designationInput,prix,prixInput,quantite,quantiteInput,dateSaisie,dateSaisieInput,buttonLine);
+        root.getChildren().addAll(titleLabel, nomLabel, nomInput, prenomLabel, prenomInput, ageLabel, ageInput, dateSaisie, dateSaisieInput, buttonLine);
     }
 
     private void addEvents(){
@@ -54,8 +54,8 @@ public class FormProduitWindow {
             e.consume();
         });
         ajouter.setOnAction(e ->{
-            produit=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixInput.getText()),dateSaisieInput.getValue());
-            pdao.add(produit);
+            Client=new Client(0,nomInput.getText(),prenomInput.getText(),Integer.parseInt(ageInput.getText()),dateSaisieInput.getValue());
+            cdao.add(Client);
             window.close();
         });
         annuler.setOnAction(e -> {
@@ -70,7 +70,7 @@ public class FormProduitWindow {
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
-    public FormProduitWindow(){
+    public FormClientWindow(){
         initiWindow();
         addStylesToNodes();
         addNodesToWindow();
