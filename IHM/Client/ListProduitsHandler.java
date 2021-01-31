@@ -1,14 +1,14 @@
-package StoreManagement.IHM;
+package StoreManagement.IHM.Client;
 
-import StoreManagement.DAO.Produit;
-import StoreManagement.DAO.ProduitDaoImpl;
+import StoreManagement.DAO.Produit.Produit;
+import StoreManagement.DAO.Produit.ProduitDaoImpl;
 
 import java.util.List;
 
-public class ProduitsListHandler {
+public class ListProduitsHandler {
     ListProduitWindow listProduitsWindow = null;
 
-    public ProduitsListHandler(ListProduitWindow listProduitsWindow){
+    public ListProduitsHandler(ListProduitWindow listProduitsWindow){
         this.listProduitsWindow=listProduitsWindow;
     }
 

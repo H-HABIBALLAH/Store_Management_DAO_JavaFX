@@ -1,7 +1,7 @@
-package StoreManagement.IHM;
+package StoreManagement.IHM.Produit;
 
-import StoreManagement.DAO.Produit;
-import StoreManagement.DAO.ProduitDaoImpl;
+import StoreManagement.DAO.Produit.Produit;
+import StoreManagement.DAO.Produit.ProduitDaoImpl;
 
 public class modifyProduitHandler {
     public modifyProduitHandler(Produit produit, ListProduitWindow listProduitWindow) {

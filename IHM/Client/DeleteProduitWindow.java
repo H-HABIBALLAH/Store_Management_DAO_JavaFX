@@ -1,4 +1,4 @@
-package StoreManagement.IHM;
+package StoreManagement.IHM.Client;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

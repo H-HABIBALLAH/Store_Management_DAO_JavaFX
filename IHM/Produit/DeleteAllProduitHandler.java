@@ -1,6 +1,6 @@
-package StoreManagement.IHM;
+package StoreManagement.IHM.Produit;
 
-import StoreManagement.DAO.ProduitDaoImpl;
+import StoreManagement.DAO.Produit.ProduitDaoImpl;
 
 public class DeleteAllProduitHandler {
     public DeleteAllProduitHandler(ListProduitWindow listProduitWindow) {

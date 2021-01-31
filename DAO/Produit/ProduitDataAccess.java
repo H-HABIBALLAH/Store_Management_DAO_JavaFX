@@ -1,4 +1,4 @@
-package StoreManagement.DAO;
+package StoreManagement.DAO.Produit;
 
 import java.sql.*;
 import java.util.ArrayList;

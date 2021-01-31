@@ -1,9 +1,9 @@
-package StoreManagement.IHM;
+package StoreManagement.IHM.Client;
 
-import StoreManagement.DAO.ProduitDaoImpl;
+import StoreManagement.DAO.Produit.ProduitDaoImpl;
 
 public class DeleteProduitHandler {
-    public DeleteProduitHandler(String id,ListProduitWindow listProduitWindow) {
+    public DeleteProduitHandler(String id, ListProduitWindow listProduitWindow) {
         ProduitDaoImpl pdao=new ProduitDaoImpl();
         pdao.delete(Long.valueOf(id));
         listProduitWindow.window.close();

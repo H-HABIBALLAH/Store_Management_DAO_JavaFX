@@ -1,7 +1,7 @@
 package StoreManagement.IHM;
 
-import StoreManagement.DAO.Produit;
-import StoreManagement.DAO.ProduitDaoImpl;
+import StoreManagement.DAO.Produit.Produit;
+import StoreManagement.DAO.Produit.ProduitDaoImpl;
 
 import java.time.LocalDate;
 

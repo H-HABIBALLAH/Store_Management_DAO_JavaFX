@@ -1,6 +1,6 @@
-package StoreManagement.IHM;
+package StoreManagement.IHM.Produit;
 
-import StoreManagement.DAO.Produit;
+import StoreManagement.DAO.Produit.Produit;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

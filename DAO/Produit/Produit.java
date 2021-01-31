@@ -1,4 +1,4 @@
-package StoreManagement.DAO;
+package StoreManagement.DAO.Produit;
 
 import java.sql.Date;
 import java.time.LocalDate;

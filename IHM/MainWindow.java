@@ -1,4 +1,6 @@
 package StoreManagement.IHM;
+import StoreManagement.IHM.Produit.FormProduitWindow;
+import StoreManagement.IHM.Produit.ListProduitWindow;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;

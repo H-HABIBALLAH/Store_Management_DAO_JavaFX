@@ -1,6 +1,6 @@
-package StoreManagement.IHM;
+package StoreManagement.IHM.Client;
 
-import StoreManagement.DAO.Produit;
+import StoreManagement.DAO.Produit.Produit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -35,7 +35,7 @@ public class ListProduitWindow {
     TableColumn<Produit,Double> sTotalColumn=new TableColumn<>("STotal");
     ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
 
-    ProduitsListHandler produitsListHandler = new ProduitsListHandler(this);
+    ListProduitsHandler produitsListHandler = new ListProduitsHandler(this);
 
     Button deleteButton = new Button("Delete");
     Button deleteAllButton = new Button("Delete all");
