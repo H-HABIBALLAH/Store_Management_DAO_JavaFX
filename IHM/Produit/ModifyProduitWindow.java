@@ -1,5 +1,6 @@
 package StoreManagement.IHM.Produit;
 
+import StoreManagement.DAO.Catégorie.Categorie;
 import StoreManagement.DAO.Produit.Produit;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -63,7 +64,7 @@ public class ModifyProduitWindow {
             Double prix = Double.valueOf(prixTextField.getText());
             Integer quantite = Integer.valueOf(quantiteTextField.getText());
             LocalDate date = datePiecker.getValue();
-            new modifyProduitHandler(new Produit(id,designation,quantite,prix,date),listProduitWindow);
+            new modifyProduitHandler(new Produit(id,designation,quantite,prix,date,new Categorie(0,"categorie")),listProduitWindow);
             window.close();
         });
         annulerButton.setOnAction(e->{

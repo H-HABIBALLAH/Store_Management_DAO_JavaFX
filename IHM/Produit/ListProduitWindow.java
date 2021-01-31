@@ -1,5 +1,6 @@
 package StoreManagement.IHM.Produit;
 
+import StoreManagement.DAO.Catégorie.Categorie;
 import StoreManagement.DAO.Produit.Produit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,6 +34,7 @@ public class ListProduitWindow {
     TableColumn<Produit,Integer> quantiteColumn=new TableColumn<>("Quantité");
     TableColumn<Produit, LocalDate> dateColumn=new TableColumn<>("Date");
     TableColumn<Produit,Double> sTotalColumn=new TableColumn<>("STotal");
+    TableColumn<Produit,String> categorieColumn=new TableColumn<>("Catégorie");
     ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
 
     ListProduitsHandler produitsListHandler = new ListProduitsHandler(this);
@@ -99,11 +101,14 @@ public class ListProduitWindow {
         sTotalColumn.setCellValueFactory(new PropertyValueFactory("sTotal"));
         sTotalColumn.setMinWidth(150);
 
+        categorieColumn.setCellValueFactory(new PropertyValueFactory("categorie"));
+        categorieColumn.setMinWidth(150);
+
 
     }
 
     private void addColumnsToTableView(){
-        table.getColumns().addAll(idColumn,designationColumn,prixColumn,quantiteColumn,sTotalColumn,dateColumn);
+        table.getColumns().addAll(idColumn,designationColumn,prixColumn,quantiteColumn,sTotalColumn,dateColumn,categorieColumn);
         table.setItems(productsObservableList);
     }
 

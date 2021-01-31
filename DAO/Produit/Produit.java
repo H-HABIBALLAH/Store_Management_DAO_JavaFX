@@ -1,5 +1,7 @@
 package StoreManagement.DAO.Produit;
 
+import StoreManagement.DAO.Catégorie.Categorie;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -10,14 +12,16 @@ public class Produit {
     private double prix;
     private LocalDate date;
     private double sTotal;
+    Categorie categorie;
 
-    public Produit(long id, String designation, int quantity, double prix, LocalDate date) {
+    public Produit(long id, String designation, int quantity, double prix, LocalDate date, Categorie categorie) {
         this.id = id;
         this.designation = designation;
         this.quantity = quantity;
         this.prix = prix;
         this.date = date;
         this.sTotal= this.prix*this.quantity;
+        this.categorie = categorie;
     }
 
     public long getId() {
@@ -69,6 +73,14 @@ public class Produit {
         this.sTotal = sTotal;
     }
 
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+
     @Override
     public String toString() {
         return   id +
@@ -76,6 +88,8 @@ public class Produit {
                 ", " + quantity +
                 ", " + prix +
                 ", " + date +
+                ", " + date +
+                ", " + categorie +
                 ", " + getSTotal();
     }
 }

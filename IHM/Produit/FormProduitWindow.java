@@ -1,7 +1,9 @@
 package StoreManagement.IHM.Produit;
 
+import StoreManagement.DAO.Catégorie.Categorie;
 import StoreManagement.DAO.Produit.Produit;
 import StoreManagement.DAO.Produit.ProduitDaoImpl;
+import StoreManagement.IHM.Catégorie.CategorieWindow;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -28,9 +30,11 @@ public class FormProduitWindow {
     private DatePicker dateSaisieInput= new DatePicker();
     private Button ajouter=new Button("Ajouter");
     private Button annuler=new Button("Annuler");
+    private Button afficherCategorieButton=new Button("Catégorie");
     HBox buttonLine=new HBox(20);
     ProduitDaoImpl pdao=new ProduitDaoImpl();
     Produit produit=null;
+    Categorie categorie=new Categorie(0,"");
 
     private void addStylesToNodes(){
         titleLabel.getStyleClass().add("sceneTitle");
@@ -46,15 +50,18 @@ public class FormProduitWindow {
 
     private void addNodesToWindow(){
         buttonLine.getChildren().addAll(ajouter,annuler);
-        root.getChildren().addAll(titleLabel,designation,designationInput,prix,prixInput,quantite,quantiteInput,dateSaisie,dateSaisieInput,buttonLine);
+        root.getChildren().addAll(titleLabel,designation,designationInput,prix,prixInput,quantite,quantiteInput,dateSaisie,dateSaisieInput,afficherCategorieButton,buttonLine);
     }
 
     private void addEvents(){
         window.setOnCloseRequest(e->{
             e.consume();
         });
+        afficherCategorieButton.setOnAction(e->{
+            new CategorieWindow(categorie);
+        });
         ajouter.setOnAction(e ->{
-            produit=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixInput.getText()),dateSaisieInput.getValue());
+            produit=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixInput.getText()),dateSaisieInput.getValue(),categorie);
             new FormProduitHandler(produit,this);
         });
         annuler.setOnAction(e -> {

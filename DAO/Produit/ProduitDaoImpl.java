@@ -1,6 +1,7 @@
 package StoreManagement.DAO.Produit;
 
 import StoreManagement.DAO.AbstractDao;
+import StoreManagement.DAO.Catégorie.Categorie;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,13 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
 
     @Override
     public void add(Produit obj) {
         PreparedStatement pst=null;
-        String sql = "INSERT INTO produit (designation, qte, prix, date, stotal) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO produit (designation, qte, prix, date, stotal, categorie) VALUES (?,?,?,?,?,?)";
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1,obj.getDesignation());
@@ -22,6 +24,7 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
             pst.setDouble(3,obj.getPrix());
             pst.setDate(4, Date.valueOf(obj.getDate()));
             pst.setDouble(5, obj.getPrix()*obj.getQuantity());
+            pst.setString(6,obj.getCategorie().getIntitule());
             pst.executeUpdate();
             System.out.println("Success d'exec requete");
         } catch (SQLException e) {
@@ -66,7 +69,7 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             if(rs.next())
-            return new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate());
+            return new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie")));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -83,7 +86,7 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate()));
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie"))));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -121,7 +124,7 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
             pst.setNString(1,des+"%");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate()));
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie"))));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
