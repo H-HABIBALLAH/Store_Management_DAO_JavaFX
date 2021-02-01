@@ -4,6 +4,7 @@ import StoreManagement.DAO.Catégorie.Categorie;
 import StoreManagement.DAO.Produit.Produit;
 import StoreManagement.DAO.Produit.ProduitDaoImpl;
 import StoreManagement.IHM.Catégorie.CategorieWindow;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -16,8 +17,9 @@ import javafx.stage.Stage;
 
 public class FormProduitWindow {
 
-    private VBox root=new VBox(10);
-    private Scene scene=new Scene(root);
+    private VBox vboxForm=new VBox(20);
+    private VBox vboxParent=new VBox();
+    private Scene scene=new Scene(vboxParent);
     Stage window=new Stage();
     private Label titleLabel=new Label("Ajouter un produit");
     private Label designation=new Label("Designation :");
@@ -31,8 +33,8 @@ public class FormProduitWindow {
     private Button ajouter=new Button("Ajouter");
     private Button annuler=new Button("Annuler");
     private Button afficherCategorieButton=new Button("Catégorie");
-    HBox buttonLine=new HBox(20);
-    ProduitDaoImpl pdao=new ProduitDaoImpl();
+    HBox buttonLine=new HBox(40);
+    HBox hboxTitle=new HBox();
     Produit produit=null;
     Categorie categorie=new Categorie(0,"");
 
@@ -45,12 +47,16 @@ public class FormProduitWindow {
         scene.getStylesheets().add("/StoreManagement/style.css");
         ajouter.getStyleClass().add("btn");
         annuler.getStyleClass().add("btn");
+        buttonLine.getStyleClass().add("btnHbox");
         titleLabel.setMinWidth(window.getWidth());
+        vboxParent.setMargin(vboxForm,new Insets(20,5,0,5));
     }
 
     private void addNodesToWindow(){
         buttonLine.getChildren().addAll(ajouter,annuler);
-        root.getChildren().addAll(titleLabel,designation,designationInput,prix,prixInput,quantite,quantiteInput,dateSaisie,dateSaisieInput,afficherCategorieButton,buttonLine);
+        hboxTitle.getChildren().add(titleLabel);
+        vboxForm.getChildren().addAll(designation,designationInput,prix,prixInput,quantite,quantiteInput,dateSaisie,dateSaisieInput,afficherCategorieButton,buttonLine);
+        vboxParent.getChildren().addAll(hboxTitle,vboxForm);
     }
 
     private void addEvents(){
@@ -71,7 +77,7 @@ public class FormProduitWindow {
 
     private void initiWindow(){
         window.setWidth(700);
-        window.setHeight(600);
+        window.setHeight(700);
         window.setScene(scene);
         window.initModality(Modality.APPLICATION_MODAL);
     }

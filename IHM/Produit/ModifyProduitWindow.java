@@ -55,9 +55,21 @@ public class ModifyProduitWindow {
 
     private void addStylesToNodes(){
         vBox.setPadding(new Insets(20));
+        idLabel.setMinWidth(100);
+        designationLabel.setMinWidth(100);
+        quantiteLabel.setMinWidth(100);
+        prixLabel.setMinWidth(100);
+        dateLabel.setMinWidth(100);
+        validerButton.getStyleClass().add("btn");
+        annulerButton.getStyleClass().add("btn");
+        buttonsHBox.getStyleClass().addAll("btnHbox");
+        scene.getStylesheets().add("/StoreManagement/style.css");
     }
 
     private void addEventsToNodes(){
+        window.setOnCloseRequest(e->{
+            e.consume();
+        });
         validerButton.setOnAction(e->{
             Long id = Long.valueOf(idTextField.getText());
             String designation  = designationTextField.getText();
@@ -74,7 +86,7 @@ public class ModifyProduitWindow {
 
     private void initiWindow(){
         window.setWidth(400);
-        window.setHeight(370);
+        window.setHeight(400);
         window.setScene(scene);
         window.initModality(Modality.APPLICATION_MODAL);
     }

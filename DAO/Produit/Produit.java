@@ -81,6 +81,14 @@ public class Produit {
         this.categorie = categorie;
     }
 
+    public String getIntituleCategorie() {
+        return categorie.getIntitule();
+    }
+
+    public void setIntituleCategorie(String intitule) {
+        this.categorie.setIntitule(intitule);
+    }
+
     @Override
     public String toString() {
         return   id +

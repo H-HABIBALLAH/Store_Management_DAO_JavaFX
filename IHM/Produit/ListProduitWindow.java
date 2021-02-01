@@ -4,6 +4,7 @@ import StoreManagement.DAO.Catégorie.Categorie;
 import StoreManagement.DAO.Produit.Produit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,7 +22,7 @@ public class ListProduitWindow {
 
 
     Stage window = new Stage();
-    private VBox root=new VBox(10);
+    private VBox root=new VBox();
     private Scene scene=new Scene(root);
     private Label titleLabel=new Label("La liste des produits");
     private TableView<Produit> table = new TableView<>();;
@@ -42,7 +43,8 @@ public class ListProduitWindow {
     Button deleteButton = new Button("Delete");
     Button deleteAllButton = new Button("Delete all");
     Button modifyButton = new Button("Modify");
-    HBox buttonsHBox=new HBox(20);
+    HBox buttonsHBox=new HBox(40);
+    HBox buttonsHBoxParent=new HBox();
 
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
@@ -50,16 +52,23 @@ public class ListProduitWindow {
         titleLabel.setMinWidth(window.getWidth());
         totalLabel.getStyleClass().add("totalLabel");
         totalLabelValue.getStyleClass().add("totalLabel");
-        totalHBox.getStyleClass().add("boxTotal");
+        totalHBox.getStyleClass().add("totalHBox");
+        buttonsHBoxParent.getStyleClass().add("btnHbox");
         table.getStyleClass().add("table-row-cell");
+        buttonsHBoxParent.setMargin(buttonsHBox,new Insets(20,0,0,0));
         table.setMinHeight(500);
         totalHBox.setSpacing(15);
+        modifyButton.getStyleClass().add("btn");
+        deleteAllButton.getStyleClass().add("btn");
+        deleteButton.getStyleClass().add("btn");
+        scene.getStylesheets().add("/StoreManagement/style.css");
     }
 
     private void addNodesToPane(){
         totalHBox.getChildren().addAll(totalLabel,totalLabelValue);
         buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton);
-        root.getChildren().addAll(titleLabel,table,totalHBox,buttonsHBox);
+        buttonsHBoxParent.getChildren().add(buttonsHBox);
+        root.getChildren().addAll(titleLabel,table,totalHBox,buttonsHBoxParent);
     }
 
     private void addEvents(){
@@ -76,7 +85,7 @@ public class ListProduitWindow {
 
     private void initiWindow(){
         window.setWidth(1100);
-        window.setHeight(900);
+        window.setHeight(800);
         window.setScene(scene);
         window.initModality(Modality.APPLICATION_MODAL);
     }
@@ -93,7 +102,7 @@ public class ListProduitWindow {
         prixColumn.setMinWidth(150);
 
         quantiteColumn.setCellValueFactory(new PropertyValueFactory("quantity"));
-        quantiteColumn.setMinWidth(150);
+        quantiteColumn.setMinWidth(120);
 
         dateColumn.setCellValueFactory(new PropertyValueFactory("date"));
         dateColumn.setMinWidth(200);
@@ -101,7 +110,7 @@ public class ListProduitWindow {
         sTotalColumn.setCellValueFactory(new PropertyValueFactory("sTotal"));
         sTotalColumn.setMinWidth(150);
 
-        categorieColumn.setCellValueFactory(new PropertyValueFactory("categorie"));
+        categorieColumn.setCellValueFactory(new PropertyValueFactory("intituleCategorie"));
         categorieColumn.setMinWidth(150);
 
 

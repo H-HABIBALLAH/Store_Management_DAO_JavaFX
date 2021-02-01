@@ -12,8 +12,8 @@
 }
 
 .formLabel{
-    -fx-text-fill: red;
-    -fx-font-weight: bold;
+    -fx-font-size : 20px;
+    -fx-text-fill : red;
 }
 
 .btn{
@@ -24,9 +24,31 @@
     -fx-border-radius: 40px;
 }
 
+.btnHbox{
+    -fx-alignment: center;
+}
+
 .btn:hover{
     -fx-background-color: black;
     -fx-text-fill: white;
 }
 
+.formProduitHBox{
+    -fx-padding: 20 px;
+}
+
+.totalHBox{
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-background-color : #a20a0a;
+
+}
+
+.totalLabel{
+    -fx-text-fill : white;
+}
+
+.centerLabel{
+    -fx-alignment: center;
+}
 

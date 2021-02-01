@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ public class CategorieWindow {
     private BorderPane root=new BorderPane();
     private Scene scene=new Scene(root);
     VBox vBox =new VBox(20);
+    HBox hBox =new HBox();
     Button validateButton = new Button("Validate");
     Categorie categorie = null;
 
@@ -29,12 +31,14 @@ public class CategorieWindow {
     RadioButton rb3 = new RadioButton("Mobile phone");
 
     private void addNodesToPane(){
-        vBox.getChildren().addAll(rb1, rb2, rb3, validateButton);
+        hBox.getChildren().add(validateButton);
+        vBox.getChildren().addAll(rb1, rb2, rb3, hBox);
         root.setCenter(vBox);
     }
 
     private void addStylesToNodes(){
         vBox.setPadding(new Insets(20));
+        hBox.getStyleClass().add("btnHbox");
     }
 
     private void addEventsToNodes(){
@@ -50,8 +54,8 @@ public class CategorieWindow {
     }
 
     private void initiWindow(){
-        window.setWidth(500);
-        window.setHeight(200);
+        window.setWidth(300);
+        window.setHeight(250);
         window.setScene(scene);
         window.initModality(Modality.APPLICATION_MODAL);
     }
