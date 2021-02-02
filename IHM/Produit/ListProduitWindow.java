@@ -25,7 +25,7 @@ public class ListProduitWindow {
     private VBox root=new VBox();
     private Scene scene=new Scene(root);
     private Label titleLabel=new Label("La liste des produits");
-    private TableView<Produit> table = new TableView<>();;
+    TableView<Produit> table = new TableView<>();;
     Label totalLabel=new Label("Total : ");
     Label totalLabelValue=new Label();
     HBox totalHBox=new HBox();
@@ -43,6 +43,7 @@ public class ListProduitWindow {
     Button deleteButton = new Button("Delete");
     Button deleteAllButton = new Button("Delete all");
     Button modifyButton = new Button("Modify");
+    Button searchButton = new Button("Search");
     HBox buttonsHBox=new HBox(40);
     HBox buttonsHBoxParent=new HBox();
 
@@ -59,6 +60,7 @@ public class ListProduitWindow {
         table.setMinHeight(500);
         totalHBox.setSpacing(15);
         modifyButton.getStyleClass().add("btn");
+        searchButton.getStyleClass().add("btn");
         deleteAllButton.getStyleClass().add("btn");
         deleteButton.getStyleClass().add("btn");
         scene.getStylesheets().add("/StoreManagement/style.css");
@@ -66,7 +68,7 @@ public class ListProduitWindow {
 
     private void addNodesToPane(){
         totalHBox.getChildren().addAll(totalLabel,totalLabelValue);
-        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton);
+        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton);
         buttonsHBoxParent.getChildren().add(buttonsHBox);
         root.getChildren().addAll(titleLabel,table,totalHBox,buttonsHBoxParent);
     }
@@ -81,6 +83,9 @@ public class ListProduitWindow {
         modifyButton.setOnAction(e->{
             new ModifyProduitWindow(this);
         });
+        searchButton.setOnAction(e->{
+            new SearchProduitWindow(this);
+        });
     }
 
     private void initiWindow(){
@@ -91,7 +96,7 @@ public class ListProduitWindow {
     }
 
 
-    private void updateColmuns(){
+     void updateColmuns(){
         idColumn.setCellValueFactory(new PropertyValueFactory("id"));
         idColumn.setMinWidth(50);
 
@@ -116,7 +121,7 @@ public class ListProduitWindow {
 
     }
 
-    private void addColumnsToTableView(){
+    void addColumnsToTableView(ObservableList productsObservableList){
         table.getColumns().addAll(idColumn,designationColumn,prixColumn,quantiteColumn,sTotalColumn,dateColumn,categorieColumn);
         table.setItems(productsObservableList);
     }
@@ -134,7 +139,7 @@ public class ListProduitWindow {
         initiWindow();
         addStylesToNodes();
         updateColmuns();
-        addColumnsToTableView();
+        addColumnsToTableView(productsObservableList);
         produitsListHandler.updateProduitsListWIndow();
         calculerTotal();
         addNodesToPane();

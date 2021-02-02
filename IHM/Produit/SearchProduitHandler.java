@@ -5,19 +5,16 @@ import StoreManagement.DAO.Produit.ProduitDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteProduitHandler {
+public class SearchProduitHandler {
     private ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
     private List<Produit> productlist;
-
-    public DeleteProduitHandler(String id,ListProduitWindow listProduitWindow) {
+    public SearchProduitHandler(String designation,ListProduitWindow listProduitWindow) {
         ProduitDaoImpl pdao=new ProduitDaoImpl();
-        pdao.delete(Long.valueOf(id));
         listProduitWindow.table.getColumns().clear();
         listProduitWindow.table.getItems().clear();
-        productlist=pdao.getAll();
+        productlist=pdao.getAll(designation);
         productsObservableList.addAll(productlist);
         listProduitWindow.addColumnsToTableView(productsObservableList);
         listProduitWindow.updateColmuns();

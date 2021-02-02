@@ -44,6 +44,7 @@ public class DeleteAllProduitWindow {
             });
             ouiButton.setOnAction(e->{
                 new DeleteAllProduitHandler(listProduitWindow);
+                window.close();
             });
             nonButton.setOnAction(e->{
                 window.close();
