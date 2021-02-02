@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -91,6 +92,8 @@ public class ListProduitWindow {
     private void initiWindow(){
         window.setWidth(1100);
         window.setHeight(800);
+        window.setTitle("Liste des produits");
+        window.getIcons().add(new Image("icone.png"));
         window.setScene(scene);
         window.initModality(Modality.APPLICATION_MODAL);
     }

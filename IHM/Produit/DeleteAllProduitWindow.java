@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -54,6 +55,8 @@ public class DeleteAllProduitWindow {
         private void initiWindow(){
             window.setWidth(500);
             window.setHeight(170);
+            window.setTitle("Supprimer tous les produits");
+            window.getIcons().add(new Image("file:icone.png"));
             window.setScene(scene);
             window.initModality(Modality.APPLICATION_MODAL);
         }

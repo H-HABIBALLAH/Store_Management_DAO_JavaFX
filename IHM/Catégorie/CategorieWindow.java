@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -62,6 +63,8 @@ public class CategorieWindow {
 
     public CategorieWindow(Categorie categorie){
         this.categorie = categorie;
+        window.setTitle("Catégories");
+        window.getIcons().add(new Image("file:/StoreManagement/src/StoreManagement/icone.png"));
         initiWindow();
         addStylesToNodes();
         addNodesToPane();

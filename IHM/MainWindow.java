@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -74,6 +75,8 @@ public class MainWindow extends Application{
         createMenu();
         addEventsMenuItems();
         addStylesToNodes();
+        window.setTitle("Accueil");
+        window.getIcons().add(new Image("icone.png"));
         window.setScene(scene);
         window.setWidth(1300);
         window.setHeight(800);

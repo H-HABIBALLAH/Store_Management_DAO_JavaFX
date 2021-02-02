@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -88,6 +89,8 @@ public class ModifyProduitWindow {
         window.setWidth(400);
         window.setHeight(400);
         window.setScene(scene);
+        window.setTitle("Modifier");
+        window.getIcons().add(new Image("icone.png"));
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
