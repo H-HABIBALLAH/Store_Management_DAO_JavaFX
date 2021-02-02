@@ -17,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.time.LocalDate;
 
 public class ListProduitWindow {
 
@@ -27,15 +26,11 @@ public class ListProduitWindow {
     private Scene scene=new Scene(root);
     private Label titleLabel=new Label("La liste des produits");
     TableView<Produit> table = new TableView<>();;
-    Label totalLabel=new Label("Total : ");
-    Label totalLabelValue=new Label();
-    HBox totalHBox=new HBox();
     TableColumn<Produit,Long> idColumn=new TableColumn<>("Id");
     TableColumn<Produit,String> designationColumn=new TableColumn<>("Designation");
-    TableColumn<Produit,Double> prixColumn=new TableColumn<>("Prix");
+    TableColumn<Produit,Double> prixAchatColumn=new TableColumn<>("prixAchat");
     TableColumn<Produit,Integer> quantiteColumn=new TableColumn<>("Quantité");
-    TableColumn<Produit, LocalDate> dateColumn=new TableColumn<>("Date");
-    TableColumn<Produit,Double> sTotalColumn=new TableColumn<>("STotal");
+    TableColumn<Produit, Double> prixVenteColumn=new TableColumn<>("prixVente");
     TableColumn<Produit,String> categorieColumn=new TableColumn<>("Catégorie");
     ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
 
@@ -45,6 +40,7 @@ public class ListProduitWindow {
     Button deleteAllButton = new Button("Delete all");
     Button modifyButton = new Button("Modify");
     Button searchButton = new Button("Search");
+    Button refreshButton = new Button("Refresh");
     HBox buttonsHBox=new HBox(40);
     HBox buttonsHBoxParent=new HBox();
 
@@ -52,26 +48,22 @@ public class ListProduitWindow {
         scene.getStylesheets().add("/StoreManagement/style.css");
         titleLabel.getStyleClass().add("sceneTitle");
         titleLabel.setMinWidth(window.getWidth());
-        totalLabel.getStyleClass().add("totalLabel");
-        totalLabelValue.getStyleClass().add("totalLabel");
-        totalHBox.getStyleClass().add("totalHBox");
         buttonsHBoxParent.getStyleClass().add("btnHbox");
         table.getStyleClass().add("table-row-cell");
         buttonsHBoxParent.setMargin(buttonsHBox,new Insets(20,0,0,0));
         table.setMinHeight(500);
-        totalHBox.setSpacing(15);
         modifyButton.getStyleClass().add("btn");
         searchButton.getStyleClass().add("btn");
+        refreshButton.getStyleClass().add("btn");
         deleteAllButton.getStyleClass().add("btn");
         deleteButton.getStyleClass().add("btn");
-        scene.getStylesheets().add("/StoreManagement/style.css");
+
     }
 
     private void addNodesToPane(){
-        totalHBox.getChildren().addAll(totalLabel,totalLabelValue);
-        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton);
+        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton,refreshButton);
         buttonsHBoxParent.getChildren().add(buttonsHBox);
-        root.getChildren().addAll(titleLabel,table,totalHBox,buttonsHBoxParent);
+        root.getChildren().addAll(titleLabel,table,buttonsHBoxParent);
     }
 
     private void addEvents(){
@@ -87,11 +79,15 @@ public class ListProduitWindow {
         searchButton.setOnAction(e->{
             new SearchProduitWindow(this);
         });
+        refreshButton.setOnAction(e->{
+            new refreshProduitHandler(this);
+        });
+
     }
 
     private void initiWindow(){
         window.setWidth(1100);
-        window.setHeight(800);
+        window.setHeight(750);
         window.setTitle("Liste des produits");
         window.getIcons().add(new Image("icone.png"));
         window.setScene(scene);
@@ -101,42 +97,30 @@ public class ListProduitWindow {
 
      void updateColmuns(){
         idColumn.setCellValueFactory(new PropertyValueFactory("id"));
-        idColumn.setMinWidth(50);
+        idColumn.setPrefWidth(100);
 
         designationColumn.setCellValueFactory(new PropertyValueFactory("designation"));
-        designationColumn.setMinWidth(250);
+        designationColumn.setPrefWidth(250);
 
-        prixColumn.setCellValueFactory(new PropertyValueFactory("prix"));
-        prixColumn.setMinWidth(150);
+        prixAchatColumn.setCellValueFactory(new PropertyValueFactory("prixAchat"));
+        prixAchatColumn.setPrefWidth(150);
 
         quantiteColumn.setCellValueFactory(new PropertyValueFactory("quantity"));
-        quantiteColumn.setMinWidth(120);
+        quantiteColumn.setPrefWidth(170);
 
-        dateColumn.setCellValueFactory(new PropertyValueFactory("date"));
-        dateColumn.setMinWidth(200);
-
-        sTotalColumn.setCellValueFactory(new PropertyValueFactory("sTotal"));
-        sTotalColumn.setMinWidth(150);
+        prixVenteColumn.setCellValueFactory(new PropertyValueFactory("prixVente"));
+        prixVenteColumn.setPrefWidth(200);
 
         categorieColumn.setCellValueFactory(new PropertyValueFactory("intituleCategorie"));
-        categorieColumn.setMinWidth(150);
-
-
+        categorieColumn.setPrefWidth(200);
     }
 
     void addColumnsToTableView(ObservableList productsObservableList){
-        table.getColumns().addAll(idColumn,designationColumn,prixColumn,quantiteColumn,sTotalColumn,dateColumn,categorieColumn);
+        table.getColumns().addAll(idColumn,designationColumn,prixAchatColumn,prixVenteColumn,quantiteColumn,categorieColumn);
         table.setItems(productsObservableList);
     }
 
 
-    private void calculerTotal(){
-        double total=0;
-        for(Produit produit : productsObservableList){
-            total+=produit.getSTotal();
-        }
-        totalLabelValue.setText(total+"");
-    }
 
     public ListProduitWindow(){
         initiWindow();
@@ -144,7 +128,6 @@ public class ListProduitWindow {
         updateColmuns();
         addColumnsToTableView(productsObservableList);
         produitsListHandler.updateProduitsListWIndow();
-        calculerTotal();
         addNodesToPane();
         addEvents();
         window.show();

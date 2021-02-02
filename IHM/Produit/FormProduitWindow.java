@@ -25,12 +25,12 @@ public class FormProduitWindow {
     private Label titleLabel=new Label("Ajouter un produit");
     private Label designation=new Label("Designation :");
     private TextField designationInput= new TextField();
-    private Label prix=new Label("Prix :");
-    private TextField prixInput= new TextField();
+    private Label prixAchat=new Label("prixAchat :");
+    private TextField prixAchatInput= new TextField();
+    private TextField prixVenteInput= new TextField();
     private Label quantite=new Label("Quantité :");
     private TextField quantiteInput= new TextField();
-    private Label dateSaisie=new Label("Date saisie :");
-    private DatePicker dateSaisieInput= new DatePicker();
+    private Label prixVente=new Label("prixVente :");
     private Button ajouter=new Button("Ajouter");
     private Button annuler=new Button("Annuler");
     private Button afficherCategorieButton=new Button("Catégorie");
@@ -43,8 +43,8 @@ public class FormProduitWindow {
         titleLabel.getStyleClass().add("sceneTitle");
         designation.getStyleClass().add("formLabel");
         quantite.getStyleClass().add("formLabel");
-        dateSaisie.getStyleClass().add("formLabel");
-        prix.getStyleClass().add("formLabel");
+        prixVente.getStyleClass().add("formLabel");
+        prixAchat.getStyleClass().add("formLabel");
         scene.getStylesheets().add("/StoreManagement/style.css");
         ajouter.getStyleClass().add("btn");
         annuler.getStyleClass().add("btn");
@@ -56,7 +56,7 @@ public class FormProduitWindow {
     private void addNodesToWindow(){
         buttonLine.getChildren().addAll(ajouter,annuler);
         hboxTitle.getChildren().add(titleLabel);
-        vboxForm.getChildren().addAll(designation,designationInput,prix,prixInput,quantite,quantiteInput,dateSaisie,dateSaisieInput,afficherCategorieButton,buttonLine);
+        vboxForm.getChildren().addAll(designation,designationInput,prixAchat,prixAchatInput,prixVente,prixVenteInput,quantite,quantiteInput,afficherCategorieButton,buttonLine);
         vboxParent.getChildren().addAll(hboxTitle,vboxForm);
     }
 
@@ -68,7 +68,7 @@ public class FormProduitWindow {
             new CategorieWindow(categorie);
         });
         ajouter.setOnAction(e ->{
-            produit=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixInput.getText()),dateSaisieInput.getValue(),categorie);
+            produit=new Produit(0,designationInput.getText(),Integer.parseInt(quantiteInput.getText()),Double.parseDouble(prixAchatInput.getText()),Double.parseDouble(prixVenteInput.getText()),categorie);
             new FormProduitHandler(produit,this);
         });
         annuler.setOnAction(e -> {

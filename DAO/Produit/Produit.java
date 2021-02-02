@@ -2,25 +2,21 @@ package StoreManagement.DAO.Produit;
 
 import StoreManagement.DAO.Catégorie.Categorie;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
 public class Produit {
     private long id;
     private String designation;
     private int quantity;
-    private double prix;
-    private LocalDate date;
+    private double prixAchat;
+    private double prixVente;
     private double sTotal;
     Categorie categorie;
 
-    public Produit(long id, String designation, int quantity, double prix, LocalDate date, Categorie categorie) {
+    public Produit(long id, String designation, int quantity, double prixAchat, double prixVente, Categorie categorie) {
         this.id = id;
         this.designation = designation;
         this.quantity = quantity;
-        this.prix = prix;
-        this.date = date;
-        this.sTotal= this.prix*this.quantity;
+        this.prixAchat = prixAchat;
+        this.prixVente = prixVente;
         this.categorie = categorie;
     }
 
@@ -48,30 +44,22 @@ public class Produit {
         this.quantity = quantity;
     }
 
-    public double getPrix() {
-        return prix;
+    public double getPrixAchat() {
+        return prixAchat;
     }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
+    public void setPrixAchat(double prixAchat) {
+        this.prixAchat = prixAchat;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public double getPrixVente() {
+        return prixVente;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setPrixVente(double prixVente) {
+        this.prixVente = prixVente;
     }
 
-    public double getSTotal() {
-        return sTotal;
-    }
-
-    public void setSTotal(double sTotal) {
-        sTotal=this.quantity*this.prix;
-        this.sTotal = sTotal;
-    }
 
     public Categorie getCategorie() {
         return categorie;
@@ -94,10 +82,8 @@ public class Produit {
         return   id +
                 ", " + designation +
                 ", " + quantity +
-                ", " + prix +
-                ", " + date +
-                ", " + date +
-                ", " + categorie +
-                ", " + getSTotal();
-    }
+                ", " + prixAchat +
+                ", " + prixVente +
+                ", " + prixVente +
+                ", " + categorie ;}
 }

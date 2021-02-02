@@ -3,28 +3,25 @@ package StoreManagement.DAO.Produit;
 import StoreManagement.DAO.AbstractDao;
 import StoreManagement.DAO.Catégorie.Categorie;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
 
     @Override
     public void add(Produit obj) {
         PreparedStatement pst=null;
-        String sql = "INSERT INTO produit (designation, qte, prix, date, stotal, categorie) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO produit (designation, qte, prixAchat, prixVente,  categorie) VALUES (?,?,?,?,?)";
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1,obj.getDesignation());
             pst.setInt(2,obj.getQuantity());
-            pst.setDouble(3,obj.getPrix());
-            pst.setDate(4, Date.valueOf(obj.getDate()));
-            pst.setDouble(5, obj.getPrix()*obj.getQuantity());
-            pst.setString(6,obj.getCategorie().getIntitule());
+            pst.setDouble(3,obj.getPrixAchat());
+            pst.setDouble(4,obj.getPrixVente());
+            pst.setString(5,obj.getCategorie().getIntitule());
             pst.executeUpdate();
             System.out.println("Success d'exec requete");
         } catch (SQLException e) {
@@ -69,7 +66,7 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             if(rs.next())
-            return new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie")));
+            return new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prixAchat"),rs.getDouble("prixVente"),new Categorie(0,rs.getString("categorie")));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -86,7 +83,7 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie"))));
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prixAchat"),rs.getDouble("prixVente"),new Categorie(0,rs.getString("categorie"))));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -97,15 +94,14 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
     public void update(Produit produit) {
         List<Produit> list = new ArrayList<Produit>();
         PreparedStatement pst=null;
-        String sql = "UPDATE produit SET designation = ?, prix = ?, qte = ?, stotal = ? , date = ? WHERE id = ?";
+        String sql = "UPDATE produit SET designation = ?, prixAchat = ?, qte = ? , prixVente = ? WHERE id = ?";
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1,produit.getDesignation());
-            pst.setDouble(2,produit.getPrix());
+            pst.setDouble(2,produit.getPrixAchat());
             pst.setInt(3,produit.getQuantity());
-            pst.setDouble(4, produit.getPrix()*produit.getQuantity());
-            pst.setDate(5, Date.valueOf(produit.getDate()));
-            pst.setLong(6, produit.getId());
+            pst.setDouble(4, produit.getPrixVente());
+            pst.setLong(5, produit.getId());
             System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -124,7 +120,7 @@ public class ProduitDaoImpl extends AbstractDao implements IProduitDao{
             pst.setNString(1,des+"%");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie"))));
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prixAchat"),rs.getDouble("prixVente"),new Categorie(0,rs.getString("categorie"))));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

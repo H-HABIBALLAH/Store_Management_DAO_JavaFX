@@ -56,7 +56,7 @@ public class DeleteAllProduitWindow {
             window.setWidth(500);
             window.setHeight(170);
             window.setTitle("Supprimer tous les produits");
-            window.getIcons().add(new Image("file:icone.png"));
+            window.getIcons().add(new Image("icone.png"));
             window.setScene(scene);
             window.initModality(Modality.APPLICATION_MODAL);
         }

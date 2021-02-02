@@ -33,7 +33,7 @@ public class ProduitDataAccess {
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie"))));
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prixAchat"),rs.getDouble("prixVente"),new Categorie(0,rs.getString("categorie"))));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -51,7 +51,7 @@ public class ProduitDataAccess {
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prix"),rs.getDate("date").toLocalDate(),new Categorie(0,rs.getString("categorie"))));
+                list.add(new Produit(rs.getLong("id"),rs.getString("designation"),rs.getInt("qte"),rs.getDouble("prixAchat"),rs.getDouble("prixVente"),new Categorie(0,rs.getString("categorie"))));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
