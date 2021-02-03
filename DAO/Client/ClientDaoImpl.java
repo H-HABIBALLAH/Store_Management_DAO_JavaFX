@@ -2,7 +2,6 @@ package StoreManagement.DAO.Client;
 
 import StoreManagement.DAO.AbstractDao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,13 +13,16 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
     @Override
     public void add(Client obj) {
         PreparedStatement pst=null;
-        String sql = "INSERT INTO Client (nom, prenom, age, date) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO Client (nom, prenom, tel, email, adresse) VALUES (?,?,?,?,?)";
         try {
+            pst=connection.prepareStatement("ALTER TABLE client AUTO_INCREMENT = 1");
+            pst.executeUpdate();
             pst=connection.prepareStatement(sql);
             pst.setString(1,obj.getNom());
             pst.setString(2,obj.getPrenom());
-            pst.setInt(3,obj.getAge());
-            pst.setDate(4, Date.valueOf(obj.getDate()));
+            pst.setString(3,obj.getTel());
+            pst.setString(4,obj.getEmail());
+            pst.setString(5,obj.getAdresse());
             pst.executeUpdate();
             System.out.println("Success d'exec requete");
         } catch (SQLException e) {
@@ -29,12 +31,12 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long code) {
         PreparedStatement pst=null;
-        String sql = "DELETE FROM Client WHERE id=?";
+        String sql = "DELETE FROM Client WHERE code = ?";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setString(1, String.valueOf(id));
+            pst.setString(1, String.valueOf(code));
             System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -57,7 +59,7 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
     @Override
     public Client getOne(long id) {
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM Client WHERE id = ?";
+        String sql = "SELECT * FROM Client WHERE code = ?";
         Client Client=null;
         try {
             pst=connection.prepareStatement(sql);
@@ -65,7 +67,7 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             if(rs.next())
-            return new Client(rs.getLong("id"),rs.getString("nom"),rs.getString("prenom"),rs.getInt("age"),rs.getDate("date").toLocalDate());
+            return new Client(rs.getLong("code"),rs.getString("nom"),rs.getString("prenom"),rs.getString("tel"),rs.getString("email"),rs.getString("adresse"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -82,7 +84,7 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Client(rs.getLong("id"),rs.getString("nom"),rs.getString("prenom"),rs.getInt("age"),rs.getDate("date").toLocalDate()));
+                list.add(new Client(rs.getLong("code"),rs.getString("nom"),rs.getString("prenom"),rs.getString("tel"),rs.getString("email"),rs.getString("adresse")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -93,14 +95,15 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
     public void update(Client Client) {
         List<Client> list = new ArrayList<Client>();
         PreparedStatement pst=null;
-        String sql = "UPDATE Client SET nom = ?, prenom = ?, age = ? , date = ?  WHERE id = ?";
+        String sql = "UPDATE Client SET nom = ?, prenom = ?, tel = ? , email = ? , adresse = ?  WHERE code = ?";
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1,Client.getNom());
             pst.setString(2,Client.getPrenom());
-            pst.setInt(3,Client.getAge());
-            pst.setDate(4, Date.valueOf(Client.getDate()));
-            pst.setLong(5, Client.getId());
+            pst.setString(3,Client.getTel());
+            pst.setString(4,Client.getEmail());
+            pst.setString(5,Client.getAdresse());
+            pst.setLong(6, Client.getCode());
             System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -109,17 +112,17 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
     }
 
     @Override
-    public List<Client> getAll(String des) {
+    public List<Client> getAll(String nom) {
         List<Client> list = new ArrayList<Client>();
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM Client WHERE designation LIKE ?";
+        String sql = "SELECT * FROM Client WHERE nom LIKE ?";
         try {
             pst=connection.prepareStatement(sql);
             System.out.println("Success d'exec requete");
-            pst.setNString(1,des+"%");
+            pst.setNString(1,nom+"%");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
-                list.add(new Client(rs.getLong("id"),rs.getString("nom"),rs.getString("prenom"),rs.getInt("age"),rs.getDate("date").toLocalDate()));
+                list.add(new Client(rs.getLong("code"),rs.getString("nom"),rs.getString("prenom"),rs.getString("tel"),rs.getString("email"),rs.getString("adresse")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

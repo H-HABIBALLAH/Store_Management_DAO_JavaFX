@@ -3,9 +3,9 @@ package StoreManagement.IHM.Client;
 import StoreManagement.DAO.Client.ClientDaoImpl;
 
 public class DeleteClientHandler {
-    public DeleteClientHandler(String id, ListClientWindow listClientWindow) {
+    public DeleteClientHandler(String code, ListClientWindow listClientWindow) {
         ClientDaoImpl cdao=new ClientDaoImpl();
-        cdao.delete(Long.valueOf(id));
+        cdao.delete(Long.valueOf(code));
         listClientWindow.window.close();
         new ListClientWindow();
     }

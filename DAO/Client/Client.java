@@ -3,26 +3,28 @@ package StoreManagement.DAO.Client;
 import java.time.LocalDate;
 
 public class Client {
-    private long id;
+    private long code;
     private String nom;
     private String prenom;
-    private int age;
-    private LocalDate date;
+    private String tel;
+    private String email;
+    private String adresse;
 
-    public Client(long id, String nom, String prenom, int age, LocalDate date) {
-        this.id = id;
+    public Client(long code, String nom, String prenom, String tel, String email, String adresse) {
+        this.code = code;
         this.nom = nom;
         this.prenom = prenom;
-        this.age = age;
-        this.date = date;
+        this.tel = tel;
+        this.email = email;
+        this.adresse = adresse;
     }
 
-    public long getId() {
-        return id;
+    public long getCode() {
+        return code;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCode(long code) {
+        this.code = code;
     }
 
     public String getNom() {
@@ -41,28 +43,39 @@ public class Client {
         this.prenom = prenom;
     }
 
-    public int getAge() {
-        return age;
+    public String getTel() {
+        return tel;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
     }
 
     @Override
     public String toString() {
-        return  "id= " + id +
-                ", nom= " + nom +
-                ", prenom= " + prenom +
-                ", age= " + age +
-                ", date= " + date ;
+        return "Client{" +
+                "code=" + code +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", tel='" + tel + '\'' +
+                ", email='" + email + '\'' +
+                ", adresse='" + adresse + '\'' +
+                '}';
     }
 }
