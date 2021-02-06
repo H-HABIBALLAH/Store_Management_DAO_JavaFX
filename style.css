@@ -52,3 +52,10 @@
     -fx-alignment: center;
 }
 
+.venteTitleLabel{
+    -fx-background-color: red;
+    -fx-text-fill: #f7f7f7;
+    -fx-font-size: 20.0 px;
+    -fx-font-family: "Times New Roman";
+    -fx-padding: 10px;
+}
