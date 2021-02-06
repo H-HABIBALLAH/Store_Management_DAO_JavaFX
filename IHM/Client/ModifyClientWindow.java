@@ -4,7 +4,6 @@ import StoreManagement.DAO.Client.Client;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -13,8 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.time.LocalDate;
 
 public class ModifyClientWindow {
     private Stage window=new Stage();
@@ -44,10 +41,10 @@ public class ModifyClientWindow {
     private Button validerButton=new Button("Valider");
     private Button annulerButton=new Button("Annuler");
     ListClientWindow listClientWindow = null;
+    private long code = 0;
 
 
     private void addNodesToPane(){
-        idHBox.getChildren().addAll(codeLabel,idTextField);
         nomHBox.getChildren().addAll(nomLabel,nomTextField);
         prenomHBox.getChildren().addAll(prenomLabel,prenomTextField);
         telHBox.getChildren().addAll(telLabel,telTextField);
@@ -74,13 +71,12 @@ public class ModifyClientWindow {
 
     private void addEventsToNodes(){
         validerButton.setOnAction(e->{
-            Long id = Long.valueOf(idTextField.getText());
             String nom  = nomTextField.getText();
             String prenom  = prenomTextField.getText();
             String tel  = telTextField.getText();
             String email  = emailTextField.getText();
             String adresse  = adresseTextField.getText();
-            new modifyClientHandler(new Client(id, nom, prenom, tel, email, adresse), listClientWindow);
+            new ModifyClientHandler(new Client(code, nom, prenom, tel, email, adresse), listClientWindow);
             window.close();
         });
         annulerButton.setOnAction(e->{
@@ -97,7 +93,8 @@ public class ModifyClientWindow {
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
-    public ModifyClientWindow(ListClientWindow listClientsWindow) {
+    public ModifyClientWindow(long code,ListClientWindow listClientsWindow) {
+        this.code=code;
         listClientWindow =listClientsWindow;
         initiWindow();
         addNodesToPane();

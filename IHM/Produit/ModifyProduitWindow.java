@@ -75,7 +75,7 @@ public class ModifyProduitWindow {
             Double prixAchat = Double.valueOf(prixAchatTextField.getText());
             Double prixVente = Double.valueOf(prixVenteTextField.getText());
             Integer quantite = Integer.valueOf(quantiteTextField.getText());
-            new modifyProduitHandler(new Produit(id,designation,quantite,prixAchat,prixVente,new Categorie(0,"categorie")),listProduitWindow);
+            new ModifyProduitHandler(new Produit(id,designation,quantite,prixAchat,prixVente,new Categorie(0,"categorie")),listProduitWindow);
             window.close();
         });
         annulerButton.setOnAction(e->{

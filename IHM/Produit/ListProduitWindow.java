@@ -1,6 +1,5 @@
 package StoreManagement.IHM.Produit;
 
-import StoreManagement.DAO.Catégorie.Categorie;
 import StoreManagement.DAO.Produit.Produit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -44,6 +44,9 @@ public class ListProduitWindow {
     HBox buttonsHBox=new HBox(40);
     HBox buttonsHBoxParent=new HBox();
 
+    Produit rowClicked = null;
+
+
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
         titleLabel.getStyleClass().add("sceneTitle");
@@ -68,10 +71,11 @@ public class ListProduitWindow {
 
     private void addEvents(){
         deleteButton.setOnAction(e->{
-            new DeleteProduitWindow(this);
+            if(rowClicked != null)
+                new DeleteProduitHandler(String.valueOf(rowClicked.getId()),this);
         });
         deleteAllButton.setOnAction(e->{
-            new DeleteAllProduitWindow(this);
+            new DeleteAllProduitHandler(this);
         });
         modifyButton.setOnAction(e->{
             new ModifyProduitWindow(this);
@@ -80,10 +84,13 @@ public class ListProduitWindow {
             new SearchProduitWindow(this);
         });
         refreshButton.setOnAction(e->{
-            new refreshProduitHandler(this);
+            new RefreshProduitHandler(this);
         });
-
+        table.setOnMouseClicked((MouseEvent event) -> {
+            rowClicked = table.getSelectionModel().getSelectedItem();
+        });
     }
+
 
     private void initiWindow(){
         window.setWidth(1100);

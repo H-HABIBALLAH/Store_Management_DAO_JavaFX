@@ -7,12 +7,13 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class refreshProduitHandler {
+public class ModifyProduitHandler {
     private ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
     private List<Produit> productlist;
 
-    public refreshProduitHandler(ListProduitWindow listProduitWindow) {
+    public ModifyProduitHandler(Produit produit, ListProduitWindow listProduitWindow) {
         ProduitDaoImpl pdao=new ProduitDaoImpl();
+        pdao.update(produit);
         listProduitWindow.table.getColumns().clear();
         listProduitWindow.table.getItems().clear();
         productlist=pdao.getAll();

@@ -1,6 +1,10 @@
 package StoreManagement.DAO.Client;
 
+import StoreManagement.DAO.Vente.Vente;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client {
     private long code;
@@ -9,6 +13,7 @@ public class Client {
     private String tel;
     private String email;
     private String adresse;
+    List<Vente> venteList = new ArrayList<Vente>();
 
     public Client(long code, String nom, String prenom, String tel, String email, String adresse) {
         this.code = code;
@@ -67,6 +72,14 @@ public class Client {
         this.adresse = adresse;
     }
 
+    public List<Vente> getVenteList() {
+        return venteList;
+    }
+
+    public void setVenteList(List<Vente> venteList) {
+        this.venteList = venteList;
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -76,6 +89,7 @@ public class Client {
                 ", tel='" + tel + '\'' +
                 ", email='" + email + '\'' +
                 ", adresse='" + adresse + '\'' +
+                ", venteList=" + venteList +
                 '}';
     }
 }

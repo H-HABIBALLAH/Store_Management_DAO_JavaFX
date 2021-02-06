@@ -1,8 +1,8 @@
 package StoreManagement.IHM.Client;
 
 import StoreManagement.DAO.Client.Client;
-import StoreManagement.IHM.Produit.SearchProduitWindow;
-import StoreManagement.IHM.Produit.refreshProduitHandler;
+import StoreManagement.IHM.Produit.*;
+import StoreManagement.IHM.Vente.FormVenteWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,12 +13,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.time.LocalDate;
 
 public class ListClientWindow {
 
@@ -43,8 +42,11 @@ public class ListClientWindow {
     Button modifyButton = new Button("Modify");
     Button searchButton = new Button("Search");
     Button refreshButton = new Button("Refresh");
+    Button addVenteButton = new Button("Add Vente");
     HBox buttonsHBox=new HBox(20);
     HBox buttonsHBoxParent=new HBox();
+
+    private Client rowClicked = null;
 
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
@@ -57,31 +59,39 @@ public class ListClientWindow {
         modifyButton.getStyleClass().add("btn");
         searchButton.getStyleClass().add("btn");
         refreshButton.getStyleClass().add("btn");
+        addVenteButton.getStyleClass().add("btn");
         deleteAllButton.getStyleClass().add("btn");
         deleteButton.getStyleClass().add("btn");
     }
 
     private void addNodesToPane(){
-        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton,refreshButton);
+        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton,refreshButton,addVenteButton);
         buttonsHBoxParent.getChildren().add(buttonsHBox);
         root.getChildren().addAll(titleLabel,table,buttonsHBoxParent);
     }
 
     private void addEvents(){
         deleteButton.setOnAction(e->{
-            new DeleteClientWindow(this);
+            if(rowClicked != null)
+                new DeleteClientHandler(String.valueOf(rowClicked.getCode()),this);
         });
         deleteAllButton.setOnAction(e->{
-            new DeleteAllClientWindow(this);
+            new DeleteAllClientHandler(this);
         });
         modifyButton.setOnAction(e->{
-            new ModifyClientWindow(this);
+            new ModifyClientWindow(rowClicked.getCode(),this);
         });
         searchButton.setOnAction(e->{
             new SearchClientWindow(this);
         });
         refreshButton.setOnAction(e->{
-            new refreshClientHandler(this);
+            new RefreshClientHandler(this);
+        });
+        table.setOnMouseClicked((MouseEvent event) -> {
+            rowClicked = table.getSelectionModel().getSelectedItem();
+        });
+        addVenteButton.setOnAction(e -> {
+            new FormVenteWindow();
         });
     }
 
