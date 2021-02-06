@@ -47,6 +47,8 @@ public class ListProduitWindow {
     Produit rowClicked = null;
 
 
+
+
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
         titleLabel.getStyleClass().add("sceneTitle");

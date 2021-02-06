@@ -59,3 +59,12 @@
     -fx-font-family: "Times New Roman";
     -fx-padding: 10px;
 }
+.rightAndLeftVBox{
+    -fx-border-color: gray;
+    -fx-border-width: 1;
+}
+
+.venteDetailVBox{
+    -fx-border-color: gray;
+    -fx-border-width: 1;
+}
