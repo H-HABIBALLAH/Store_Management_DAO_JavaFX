@@ -46,7 +46,7 @@ public class ListClientWindow {
     HBox buttonsHBox=new HBox(20);
     HBox buttonsHBoxParent=new HBox();
 
-    private Client rowClicked = null;
+    private Client rowClientClicked = null;
 
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
@@ -72,14 +72,14 @@ public class ListClientWindow {
 
     private void addEvents(){
         deleteButton.setOnAction(e->{
-            if(rowClicked != null)
-                new DeleteClientHandler(String.valueOf(rowClicked.getCode()),this);
+            if(rowClientClicked != null)
+                new DeleteClientHandler(String.valueOf(rowClientClicked.getCode()),this);
         });
         deleteAllButton.setOnAction(e->{
             new DeleteAllClientHandler(this);
         });
         modifyButton.setOnAction(e->{
-            new ModifyClientWindow(rowClicked.getCode(),this);
+            new ModifyClientWindow(rowClientClicked.getCode(),this);
         });
         searchButton.setOnAction(e->{
             new SearchClientWindow(this);
@@ -88,10 +88,10 @@ public class ListClientWindow {
             new RefreshClientHandler(this);
         });
         table.setOnMouseClicked((MouseEvent event) -> {
-            rowClicked = table.getSelectionModel().getSelectedItem();
+            rowClientClicked = table.getSelectionModel().getSelectedItem();
         });
         addVenteButton.setOnAction(e -> {
-            new FormVenteWindow();
+            new FormVenteWindow(rowClientClicked);
         });
     }
 

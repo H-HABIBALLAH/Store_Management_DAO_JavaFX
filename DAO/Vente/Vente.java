@@ -1,14 +1,27 @@
 package StoreManagement.DAO.Vente;
 
+import StoreManagement.DAO.Client.Client;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Vente {
-    private String numero;
-    private LocalDate date;
+    private String numero = "6";
+    private LocalDate date = LocalDate.now();
     private double total;
-    private List<LigneCommande> ligneCommandeList = new ArrayList<LigneCommande>();
+    Client client = null;
+    private List<LigneDeCommande> ligneDeCommandeList = new ArrayList<LigneDeCommande>();
+
+    public Vente(){
+
+    }
+
+    public Vente(String numero, LocalDate date, Client client) {
+        this.numero = numero;
+        this.date = date;
+        this.client = client;
+    }
 
     public String getNumero() {
         return numero;
@@ -33,17 +46,25 @@ public class Vente {
 
     public void calculerTotal() {
         total = 0;
-        for(LigneCommande ligneCommande : ligneCommandeList){
-            total+=ligneCommande.getSousTotal();
+        for(LigneDeCommande ligneDeCommande : ligneDeCommandeList){
+            total+= ligneDeCommande.getSousTotal();
         }
     }
 
-    public List<LigneCommande> getLigneCommandeList() {
-        return ligneCommandeList;
+    public Client getClient() {
+        return client;
     }
 
-    public void setLigneCommandeList(List<LigneCommande> ligneCommandeList) {
-        this.ligneCommandeList = ligneCommandeList;
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public List<LigneDeCommande> getLigneCommandeList() {
+        return ligneDeCommandeList;
+    }
+
+    public void setLigneCommandeList(List<LigneDeCommande> ligneDeCommandeList) {
+        this.ligneDeCommandeList = ligneDeCommandeList;
     }
 
     @Override
@@ -52,7 +73,7 @@ public class Vente {
                 "numero='" + numero + '\'' +
                 ", date=" + date +
                 ", total=" + total +
-                ", ligneCommandeList=" + ligneCommandeList +
+                ", ligneCommandeList=" + ligneDeCommandeList +
                 '}';
     }
 }

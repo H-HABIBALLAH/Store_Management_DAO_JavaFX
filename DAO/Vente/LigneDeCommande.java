@@ -2,15 +2,17 @@ package StoreManagement.DAO.Vente;
 
 import StoreManagement.DAO.Produit.Produit;
 
-public class LigneCommande {
+public class LigneDeCommande {
     private long id;
     private int qte;
+    Vente vente;
     private Produit produit;
     private double sousTotal;
 
-    public LigneCommande(long id, int qte, Produit produit) {
+    public LigneDeCommande(long id, int qte, Vente vente, Produit produit) {
         this.id = id;
         this.qte = qte;
+        this.vente = vente;
         this.produit = produit;
         this.sousTotal=0;
     }
@@ -39,6 +41,14 @@ public class LigneCommande {
         this.produit = produit;
     }
 
+    public long getProduitId() {
+        return produit.getId();
+    }
+
+    public void setProduitId(long id) {
+        this.produit.setId(id);
+    }
+
     public double getSousTotal() {
         calculerSousTotal();
         return sousTotal;
@@ -46,6 +56,14 @@ public class LigneCommande {
 
     public void calculerSousTotal() {
         sousTotal = produit.getPrixVente()*qte;
+    }
+
+    public Vente getVente() {
+        return vente;
+    }
+
+    public void setVente(Vente vente) {
+        this.vente = vente;
     }
 
     @Override
