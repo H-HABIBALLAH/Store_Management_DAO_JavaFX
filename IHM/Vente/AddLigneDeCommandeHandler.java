@@ -9,10 +9,8 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 public class AddLigneDeCommandeHandler {
-    private ObservableList<LigneDeCommande> commandeObservableList = FXCollections.observableArrayList();
-    private List<LigneDeCommande> ligneDeCommandelist;
 
-    public AddLigneDeCommandeHandler(LigneDeCommande ligneDeCommande, FormVenteWindow formVenteWindow) {
+    public AddLigneDeCommandeHandler(LigneDeCommande ligneDeCommande) {
         LigneDeCommandeDaoImpl ldcDao=new LigneDeCommandeDaoImpl();
         ldcDao.add(ligneDeCommande);
     }

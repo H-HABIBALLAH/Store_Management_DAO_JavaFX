@@ -22,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormVenteWindow {
-    Vente vente = new Vente();
+    Vente vente = null;
     LigneDeCommande ligneDeCommande = null;
     Produit produitClicked = null;
+    LigneDeCommande ligneDeCommandeClicked = null;
     Client client = null;
 
     Stage window=new Stage();
@@ -79,10 +80,9 @@ public class FormVenteWindow {
 
     Button enregistrerButton = new Button("Enregistrer");
     Button modifierButton = new Button("modifier");
-    Button supprimerButton = new Button("Supprimer");
     Button quitterButton = new Button("Quitter");
-    Button ajouterButton = new Button("+");
-    Button annulerButton = new Button("-");
+    Button ajouterCommandeButton = new Button("+");
+    Button supprimerCommandeButton = new Button("-");
 
     TableView<Produit> produitTable = new TableView();
     TableColumn<Produit,Long> idColumnProduit=new TableColumn<>("Id");
@@ -109,7 +109,7 @@ public class FormVenteWindow {
     }
 
     private void addNodesToPane(){
-        buttonsHBox.getChildren().addAll(enregistrerButton,modifierButton,supprimerButton,quitterButton);
+        buttonsHBox.getChildren().addAll(enregistrerButton,modifierButton,quitterButton);
 
         numVenteHBox.getChildren().addAll(numVenteLabel,numVenteInput);
         clientHBox.getChildren().addAll(clientLabel,clientInput);
@@ -122,7 +122,7 @@ public class FormVenteWindow {
         prixHBox.getChildren().addAll(prixLabel,prixInput);
         quantiteHBox.getChildren().addAll(quantiteLabel,quantiteInput);
         leftInputCommandeVBox.getChildren().addAll(detailVenteVBox,codeProduitHBox,designationHBox,prixHBox,quantiteHBox);
-        rightInputCommandeButtonsHBox.getChildren().addAll(ajouterButton,annulerButton);
+        rightInputCommandeButtonsHBox.getChildren().addAll(ajouterCommandeButton,supprimerCommandeButton);
         rightInputCommandeHBox.getChildren().add(rightInputCommandeButtonsHBox);
         inputCommandeHBox.getChildren().addAll(leftInputCommandeVBox,rightInputCommandeHBox);
         tableStackPane.getChildren().add(produitTable);
@@ -148,10 +148,9 @@ public class FormVenteWindow {
         buttonsHBox.getStyleClass().add("btnHbox");
         enregistrerButton.getStyleClass().add("btn");
         modifierButton.getStyleClass().add("btn");
-        supprimerButton.getStyleClass().add("btn");
         quitterButton.getStyleClass().add("btn");
-        ajouterButton.getStyleClass().add("btn");
-        annulerButton.getStyleClass().add("btn");
+        ajouterCommandeButton.getStyleClass().add("btn");
+        supprimerCommandeButton.getStyleClass().add("btn");
 
         lignesCommandeLabel.getStyleClass().add("venteTitleLabel");
         venteDetailLabel.getStyleClass().add("venteTitleLabel");
@@ -164,8 +163,8 @@ public class FormVenteWindow {
         rightInputCommandeHBox.getStyleClass().add("btnHbox");
         rightInputCommandeHBox.setMargin(rightInputCommandeButtonsHBox,new Insets(10,10,0,50));
 
-        ajouterButton.setStyle("-fx-font-size: 50px");
-        annulerButton.setStyle("-fx-font-size: 50px");
+        ajouterCommandeButton.setStyle("-fx-font-size: 50px");
+        supprimerCommandeButton.setStyle("-fx-font-size: 50px");
 
         numVenteLabel.setMinWidth(100);
         clientLabel.setMinWidth(100);
@@ -200,23 +199,17 @@ public class FormVenteWindow {
         quantiteInput.clear();;
     }
 
-    private void updateProduitInfos(){
-
-    }
-
     private void createLigneDeCommande(){
-        ligneDeCommande=new LigneDeCommande(0,Integer.parseInt(quantiteInput.getText()),vente,produitClicked);
+        ligneDeCommande=new LigneDeCommande(0,Integer.valueOf(quantiteInput.getText()),vente,produitClicked);
     }
 
     private Boolean produitExistInTable(){
-        for (LigneDeCommande ligneDeCommandeRow : commandeTable.getItems()) {
-            if(produitClicked.getId() == idColumnCommande.getCellObservableValue(ligneDeCommandeRow).getValue()){
-
-                for(LigneDeCommande observableLigneDeCommande : commandeObservableList){
-                    if(observableLigneDeCommande.getId() == produitClicked.getId()){
-                        observableLigneDeCommande.setQte(0);
-                    }
-                }
+        for (int i = 0; i < commandeTable.getItems().size(); i++) {
+            LigneDeCommande ligneDeCommande = commandeTable.getItems().get(i);
+            if (produitClicked.getId() == idColumnCommande.getCellObservableValue(ligneDeCommande).getValue()) {
+                int newQte = Integer.valueOf(quantiteInput.getText())+ligneDeCommande.getQte();
+                ligneDeCommande.setQte(newQte);
+                commandeTable.getItems().set(i, ligneDeCommande);
                 return true;
             }
         }
@@ -230,6 +223,10 @@ public class FormVenteWindow {
     }
 
     private void addEventsToNodes(){
+        window.setOnCloseRequest(e->{
+            e.consume();
+        });
+
         produitTable.setOnMouseClicked((MouseEvent e) ->{
             if(e.getClickCount() > 1){
                 produitClicked = produitTable.getSelectionModel().getSelectedItem();
@@ -237,13 +234,41 @@ public class FormVenteWindow {
             }
         });
 
-        ajouterButton.setOnAction(e->{
+        ajouterCommandeButton.setOnAction(e->{
             createLigneDeCommande();
-            clearProduitInputs();
-            //new AddLigneDeCommandeHandler(ligneDeCommande,this);
             addCommandeToObservableList(ligneDeCommande);
+            clearProduitInputs();
             updateCommandeColmuns();
             addCommandeColumnsToTableView(commandeObservableList);
+        });
+        
+        commandeTable.setOnMouseClicked((MouseEvent e) ->{
+            if(e.getClickCount() == 1){
+                ligneDeCommandeClicked = commandeTable.getSelectionModel().getSelectedItem();
+            }
+        });
+        
+        supprimerCommandeButton.setOnAction(e->{
+           commandeObservableList.remove(ligneDeCommandeClicked);
+           updateCommandeColmuns();
+        });
+
+        enregistrerButton.setOnAction(e->{
+            new AddVenteHandler(vente);
+            new UpdateVenteInfoHandler(vente);
+            for(LigneDeCommande ligneDeCommande : commandeTable.getItems()){
+                ligneDeCommande.getVente().setNumero(vente.getNumero());
+                new AddLigneDeCommandeHandler(ligneDeCommande);
+            }
+            window.close();
+        });
+
+        modifierButton.setOnAction(e->{
+            new ModifyCommandeWindow(ligneDeCommandeClicked,this);
+        });
+
+        quitterButton.setOnAction(e->{
+            window.close();
         });
     }
 
@@ -305,7 +330,7 @@ public class FormVenteWindow {
     }
 
     public FormVenteWindow(Client client) {
-        vente.setClient(client);
+        vente = new Vente(client);
         initiWindow();
         addStylesToNodes();
         addProduitColumnsToTableView();

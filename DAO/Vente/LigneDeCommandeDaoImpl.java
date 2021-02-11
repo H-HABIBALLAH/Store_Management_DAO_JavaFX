@@ -15,14 +15,13 @@ public class LigneDeCommandeDaoImpl extends AbstractDao{
     VenteDaoImpl vdao = new VenteDaoImpl();
 
     public void add(LigneDeCommande ligneDeCommande){
-        vdao.add(ligneDeCommande.getVente());
         PreparedStatement pst=null;
         String sql = "INSERT INTO lignedecommande (qte, sousTotal, numVente, idProduit) VALUES (?,?,?,?)";
         try {
             pst=connection.prepareStatement(sql);
             pst.setInt(1,ligneDeCommande.getQte());
             pst.setDouble(2,ligneDeCommande.getSousTotal());
-            pst.setString(3,ligneDeCommande.getVente().getNumero());
+            pst.setLong(3,ligneDeCommande.getVente().getNumero());
             pst.setLong(4,ligneDeCommande.getProduit().getId());
             pst.executeUpdate();
         } catch (SQLException e) {

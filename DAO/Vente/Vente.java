@@ -7,27 +7,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vente {
-    private static String numero = "30";
+    private static long numero = 0;
     private LocalDate date = LocalDate.now();
     private double total;
     Client client = null;
     private List<LigneDeCommande> ligneDeCommandeList = new ArrayList<LigneDeCommande>();
 
-    public Vente(){
-
+    public Vente(Client client){
+        this.client = client;
     }
 
-    public Vente(String numero, LocalDate date, Client client) {
+    public Vente(long numero, LocalDate date, Client client) {
         this.numero = numero;
         this.date = date;
         this.client = client;
     }
 
-    public String getNumero() {
+    public long getNumero() {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(long numero) {
         this.numero = numero;
     }
 
