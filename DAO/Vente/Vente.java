@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vente {
-    private String numero = "6";
+    private static String numero = "30";
     private LocalDate date = LocalDate.now();
     private double total;
     Client client = null;

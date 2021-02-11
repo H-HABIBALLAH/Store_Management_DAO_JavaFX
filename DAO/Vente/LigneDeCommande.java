@@ -41,6 +41,22 @@ public class LigneDeCommande {
         this.produit = produit;
     }
 
+    public String getProduitDesignation() {
+        return produit.getDesignation();
+    }
+
+    public void setProduitDesignation(String des) {
+        this.produit.setDesignation(des);
+    }
+
+    public double getProduitPrixVente() {
+        return produit.getPrixVente();
+    }
+
+    public void setProduitPrixVente(double prixVente) {
+        this.produit.setPrixVente(prixVente);
+    }
+
     public long getProduitId() {
         return produit.getId();
     }
@@ -48,6 +64,7 @@ public class LigneDeCommande {
     public void setProduitId(long id) {
         this.produit.setId(id);
     }
+
 
     public double getSousTotal() {
         calculerSousTotal();

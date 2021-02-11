@@ -14,12 +14,6 @@ public class AddLigneDeCommandeHandler {
 
     public AddLigneDeCommandeHandler(LigneDeCommande ligneDeCommande, FormVenteWindow formVenteWindow) {
         LigneDeCommandeDaoImpl ldcDao=new LigneDeCommandeDaoImpl();
-        formVenteWindow.commandeTable.getColumns().clear();
-        formVenteWindow.commandeTable.getItems().clear();
         ldcDao.add(ligneDeCommande);
-        ligneDeCommandelist=ldcDao.getAll();
-        commandeObservableList.addAll(ligneDeCommandelist);
-        formVenteWindow.addCommandeColumnsToTableView(commandeObservableList);
-        formVenteWindow.updateCommandeColmuns();
     }
 }

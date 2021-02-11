@@ -18,6 +18,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FormVenteWindow {
     Vente vente = new Vente();
     LigneDeCommande ligneDeCommande = null;
@@ -93,10 +96,10 @@ public class FormVenteWindow {
     TableView<LigneDeCommande> commandeTable = new TableView();
     TableColumn<LigneDeCommande,Long> idColumnCommande=new TableColumn<>("Id produit");
     TableColumn<LigneDeCommande,String> designationColumnCommande=new TableColumn<>("Produit Designation");
-    TableColumn<LigneDeCommande, Double> prixColumnCommande=new TableColumn<>("Prix vente produit");
+    TableColumn<LigneDeCommande, Double> prixColumnCommande=new TableColumn<>("Prix");
     TableColumn<LigneDeCommande,Integer> quantiteColumnCommande=new TableColumn<>("Qte");
     TableColumn<LigneDeCommande,String> sousTotalColumnCommande=new TableColumn<>("Sous total");
-    ObservableList<Produit> commandeObservableList = FXCollections.observableArrayList();
+    ObservableList<LigneDeCommande> commandeObservableList = FXCollections.observableArrayList();
 
     ListProduitVenteHandler listProduitVenteHandler = new ListProduitVenteHandler(this);
 
@@ -201,8 +204,29 @@ public class FormVenteWindow {
 
     }
 
-    private void createLigneDeCommandeInfos(){
+    private void createLigneDeCommande(){
         ligneDeCommande=new LigneDeCommande(0,Integer.parseInt(quantiteInput.getText()),vente,produitClicked);
+    }
+
+    private Boolean produitExistInTable(){
+        for (LigneDeCommande ligneDeCommandeRow : commandeTable.getItems()) {
+            if(produitClicked.getId() == idColumnCommande.getCellObservableValue(ligneDeCommandeRow).getValue()){
+
+                for(LigneDeCommande observableLigneDeCommande : commandeObservableList){
+                    if(observableLigneDeCommande.getId() == produitClicked.getId()){
+                        observableLigneDeCommande.setQte(0);
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addCommandeToObservableList(LigneDeCommande ligneDeCommande){
+        if(!produitExistInTable()){
+            commandeObservableList.add(ligneDeCommande);
+        }
     }
 
     private void addEventsToNodes(){
@@ -214,9 +238,12 @@ public class FormVenteWindow {
         });
 
         ajouterButton.setOnAction(e->{
-            createLigneDeCommandeInfos();
+            createLigneDeCommande();
             clearProduitInputs();
-            new AddLigneDeCommandeHandler(ligneDeCommande,this);
+            //new AddLigneDeCommandeHandler(ligneDeCommande,this);
+            addCommandeToObservableList(ligneDeCommande);
+            updateCommandeColmuns();
+            addCommandeColumnsToTableView(commandeObservableList);
         });
     }
 
@@ -255,26 +282,24 @@ public class FormVenteWindow {
     }
 
     void updateCommandeColmuns(){
-        idColumnProduit.setCellValueFactory(new PropertyValueFactory("id"));
-        idColumnProduit.setPrefWidth(100);
+            idColumnCommande.setCellValueFactory(new PropertyValueFactory("produitId"));
+            idColumnCommande.setPrefWidth(100);
 
-        designationColumnProduit.setCellValueFactory(new PropertyValueFactory("designation"));
-        designationColumnProduit.setPrefWidth(250);
+            designationColumnCommande.setCellValueFactory(new PropertyValueFactory("produitDesignation"));
+            designationColumnCommande.setPrefWidth(200);
 
-        prixAchatColumnProduit.setCellValueFactory(new PropertyValueFactory("prixAchat"));
-        prixAchatColumnProduit.setPrefWidth(150);
+            prixColumnCommande.setCellValueFactory(new PropertyValueFactory("produitPrixVente"));
+            prixColumnCommande.setPrefWidth(100);
 
-        quantiteColumnProduit.setCellValueFactory(new PropertyValueFactory("quantity"));
-        quantiteColumnProduit.setPrefWidth(170);
+            quantiteColumnCommande.setCellValueFactory(new PropertyValueFactory("qte"));
+            quantiteColumnCommande.setPrefWidth(70);
 
-        prixVenteColumnProduit.setCellValueFactory(new PropertyValueFactory("prixVente"));
-        prixVenteColumnProduit.setPrefWidth(200);
-
-        categorieColumnProduit.setCellValueFactory(new PropertyValueFactory("intituleCategorie"));
-        categorieColumnProduit.setPrefWidth(200);
+            sousTotalColumnCommande.setCellValueFactory(new PropertyValueFactory("sousTotal"));
+            sousTotalColumnCommande.setPrefWidth(100);
     }
 
     void addCommandeColumnsToTableView(ObservableList<LigneDeCommande> commandeObservableList){
+        commandeTable.getColumns().clear();
         commandeTable.getColumns().addAll(idColumnCommande,designationColumnCommande,prixColumnCommande,quantiteColumnCommande,sousTotalColumnCommande);
         commandeTable.setItems(commandeObservableList);
     }
@@ -283,8 +308,8 @@ public class FormVenteWindow {
         vente.setClient(client);
         initiWindow();
         addStylesToNodes();
-        updateProduitColmuns();
         addProduitColumnsToTableView();
+        updateProduitColmuns();
         updateVenteDetailsInputs();
         listProduitVenteHandler.updateObservableProduitsList();
         addNodesToPane();
