@@ -1,13 +1,14 @@
 package StoreManagement.DAO.Vente;
 
 import StoreManagement.DAO.Client.Client;
+import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Vente {
-    private static long numero = 0;
+    private long numero = 0;
     private LocalDate date = LocalDate.now();
     private double total;
     Client client = null;

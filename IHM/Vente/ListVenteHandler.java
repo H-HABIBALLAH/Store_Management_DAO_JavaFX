@@ -14,11 +14,13 @@ public class ListVenteHandler {
     public ListVenteHandler(Client client, ListVenteWindow listVentesWindow){
         this.client = client;
         this.listVentesWindow=listVentesWindow;
+        updateVentesListWIndow();
     }
 
     void updateVentesListWIndow(){
+        listVentesWindow.getTable().getItems().clear();
         VenteDaoImpl vdao=new VenteDaoImpl();
         List<Vente> VentesList = vdao.getAll(client.getCode());
-        listVentesWindow.VentesObservableList.addAll(VentesList);
+        listVentesWindow.getVentesObservableList().addAll(VentesList);
     }
 }

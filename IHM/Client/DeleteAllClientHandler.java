@@ -13,11 +13,11 @@ public class DeleteAllClientHandler {
     private ObservableList<Client> clientsObservableList = FXCollections.observableArrayList();
     private List<Client> clientslist;
     public DeleteAllClientHandler(ListClientWindow listClientWindow) {
-        ClientDaoImpl pdao=new ClientDaoImpl();
-        pdao.deleteAll();
+        ClientDaoImpl cdao=new ClientDaoImpl();
+        cdao.deleteAll();
         listClientWindow.table.getColumns().clear();
         listClientWindow.table.getItems().clear();
-        clientslist=pdao.getAll();
+        clientslist=cdao.getAll();
         clientsObservableList.addAll(clientslist);
         listClientWindow.addColumnsToTableView(clientsObservableList);
         listClientWindow.updateColmuns();

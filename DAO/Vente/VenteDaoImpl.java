@@ -3,7 +3,6 @@ package StoreManagement.DAO.Vente;
 import StoreManagement.DAO.AbstractDao;
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Client.ClientDaoImpl;
-import StoreManagement.DAO.IDao;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VenteDaoImpl extends AbstractDao implements IVenteDao {
-    Vente vente = null;
     Client client = null;
     ClientDaoImpl clientDao = new ClientDaoImpl();
 
@@ -39,7 +37,6 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1, String.valueOf(numero));
-            System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -58,14 +55,14 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
                 return new Vente(numero, rs.getDate("date").toLocalDate(), null);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage()+" 1");
+            System.out.println(e.getMessage());
         }
         return null;
     }
 
     @Override
     public List getAll(Long codeClient) {
-        List<Vente> list = new ArrayList<Vente>();
+        List<Vente> list = new ArrayList<>();
         PreparedStatement pst=null;
         String sql = "SELECT * FROM vente WHERE codeClient = ?";
         try {
@@ -73,12 +70,29 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
             pst.setLong(1,codeClient);
             ResultSet rs=pst.executeQuery();
             client = clientDao.getOne(codeClient);
+            Vente vente = null;
             while (rs.next()){
                 vente = new Vente(rs.getLong("numero"), rs.getDate("date").toLocalDate(), client);
                 list.add(vente);
-                System.out.println(vente);
             }
-            System.out.println(list);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    public List getAll() {
+        List<Vente> list = new ArrayList<>();
+        PreparedStatement pst=null;
+        String sql = "SELECT * FROM vente";
+        try {
+            pst=connection.prepareStatement(sql);
+            ResultSet rs=pst.executeQuery();
+            Vente vente = null;
+            while (rs.next()){
+                vente = new Vente(rs.getLong("numero"), rs.getDate("date").toLocalDate(), client);
+                list.add(vente);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -87,7 +101,14 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
 
     @Override
     public void deleteAll() {
-
+        PreparedStatement pst=null;
+        String sql = "DELETE FROM vente";
+        try {
+            pst=connection.prepareStatement(sql);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

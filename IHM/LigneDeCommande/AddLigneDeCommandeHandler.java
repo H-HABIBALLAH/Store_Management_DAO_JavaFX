@@ -1,12 +1,7 @@
 package StoreManagement.IHM.LigneDeCommande;
 
-import StoreManagement.DAO.Client.Client;
-import StoreManagement.DAO.Vente.LigneDeCommande;
-import StoreManagement.DAO.Vente.LigneDeCommandeDaoImpl;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.util.List;
+import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
+import StoreManagement.DAO.LigneDeCommande.LigneDeCommandeDaoImpl;
 
 public class AddLigneDeCommandeHandler {
 

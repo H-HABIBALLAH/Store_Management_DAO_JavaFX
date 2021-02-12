@@ -1,6 +1,7 @@
-package StoreManagement.DAO.Vente;
+package StoreManagement.DAO.LigneDeCommande;
 
 import StoreManagement.DAO.Produit.Produit;
+import StoreManagement.DAO.Vente.Vente;
 
 public class LigneDeCommande {
     private long id;

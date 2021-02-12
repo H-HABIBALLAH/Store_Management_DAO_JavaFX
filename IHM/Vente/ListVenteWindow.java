@@ -28,14 +28,22 @@ public class ListVenteWindow {
         private VBox root=new VBox();
         private Scene scene=new Scene(root);
         private Label titleLabel=new Label("La liste des ventes");
-        TableView<Vente> table = new TableView<>();;
+        private TableView<Vente> table = new TableView<>();;
         TableColumn<Vente,Long> numeroColumn = new TableColumn<>("Numéro");
         TableColumn<Vente, Date> dateColumn = new TableColumn<>("Date");
         TableColumn<Vente,Double> totalColumn = new TableColumn<>("Total");
         TableColumn<Vente,Long> codeClientColumn = new TableColumn<>("Code client");
-        ObservableList<Vente> VentesObservableList = FXCollections.observableArrayList();
+        private ObservableList<Vente> ventesObservableList = FXCollections.observableArrayList();
 
-        ListVenteHandler ventesListHandler = null;
+    public ObservableList<Vente> getVentesObservableList() {
+        return ventesObservableList;
+    }
+
+    public TableView<Vente> getTable() {
+        return table;
+    }
+
+    ListVenteHandler ventesListHandler = null;
 
         Button deleteButton = new Button("Delete");
         Button deleteAllButton = new Button("Delete all");
@@ -73,19 +81,19 @@ public class ListVenteWindow {
         private void addEvents(){
             deleteButton.setOnAction(e->{
                 if(rowVenteClicked != null)
-                    new DeleteVenteHandler(rowVenteClicked.getNumero(),this);
+                    new DeleteVenteHandler(rowVenteClicked.getNumero(),rowVenteClicked.getClient().getCode(),this);
             });
             deleteAllButton.setOnAction(e->{
-                //new DeleteAllVenteHandler(this);
+                new DeleteAllVenteHandler(this);
             });
             modifyButton.setOnAction(e->{
                 //new ModifyVenteWindow(rowVenteClicked.getCode(),this);
             });
             searchButton.setOnAction(e->{
-                //new SearchVenteWindow(this);
+                new SearchVenteWindow(this);
             });
             refreshButton.setOnAction(e->{
-                //new RefreshVenteHandler(this);
+                new ListVenteHandler(client,this);
             });
             table.setOnMouseClicked((MouseEvent event) -> {
                 rowVenteClicked = table.getSelectionModel().getSelectedItem();
@@ -131,7 +139,7 @@ public class ListVenteWindow {
             addStylesToNodes();
             updateColmuns();
             ventesListHandler = new ListVenteHandler(client, this);
-            addColumnsToTableView(VentesObservableList);
+            addColumnsToTableView(ventesObservableList);
             ventesListHandler.updateVentesListWIndow();
             addNodesToPane();
             addEvents();

@@ -2,7 +2,7 @@ package StoreManagement.IHM.Vente;
 
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Produit.Produit;
-import StoreManagement.DAO.Vente.LigneDeCommande;
+import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
 import StoreManagement.DAO.Vente.Vente;
 import StoreManagement.IHM.LigneDeCommande.AddLigneDeCommandeHandler;
 import StoreManagement.IHM.LigneDeCommande.ModifyCommandeWindow;

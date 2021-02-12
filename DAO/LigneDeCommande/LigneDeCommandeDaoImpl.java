@@ -1,8 +1,10 @@
-package StoreManagement.DAO.Vente;
+package StoreManagement.DAO.LigneDeCommande;
 
 import StoreManagement.DAO.AbstractDao;
 import StoreManagement.DAO.Produit.Produit;
 import StoreManagement.DAO.Produit.ProduitDaoImpl;
+import StoreManagement.DAO.Vente.Vente;
+import StoreManagement.DAO.Vente.VenteDaoImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +25,29 @@ public class LigneDeCommandeDaoImpl extends AbstractDao{
             pst.setDouble(2,ligneDeCommande.getSousTotal());
             pst.setLong(3,ligneDeCommande.getVente().getNumero());
             pst.setLong(4,ligneDeCommande.getProduit().getId());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteAll(long venteNumero) {
+        PreparedStatement pst=null;
+        String sql = "DELETE FROM LigneDeCommande WHERE numVente = ?";
+        try {
+            pst=connection.prepareStatement(sql);
+            pst.setLong(1,venteNumero);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteAll() {
+        PreparedStatement pst=null;
+        String sql = "DELETE FROM LigneDeCommande";
+        try {
+            pst=connection.prepareStatement(sql);
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -79,14 +104,15 @@ public class LigneDeCommandeDaoImpl extends AbstractDao{
         return null;
     }*/
 
-    public List<LigneDeCommande> getAll() {
+    public List<LigneDeCommande> getAll(long numeroVente) {
         List<LigneDeCommande> list = new ArrayList<LigneDeCommande>();
         PreparedStatement pst=null;
         Vente vente = null;
         Produit produit = null;
-        String sql = "SELECT * FROM LigneDeCommande";
+        String sql = "SELECT * FROM LigneDeCommande WHERE numVente = ?";
         try {
             pst=connection.prepareStatement(sql);
+            pst.setLong(1,numeroVente);
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
                 produit = pdao.getOne(rs.getLong("idProduit"));

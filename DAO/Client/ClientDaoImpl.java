@@ -24,7 +24,6 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
             pst.setString(4,obj.getEmail());
             pst.setString(5,obj.getAdresse());
             pst.executeUpdate();
-            System.out.println("Success d'exec requete");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -37,7 +36,6 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
         try {
             pst=connection.prepareStatement(sql);
             pst.setString(1, String.valueOf(code));
-            System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -49,7 +47,6 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
         String sql = "DELETE FROM Client";
         try {
             pst=connection.prepareStatement(sql);
-            System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -64,7 +61,6 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
         try {
             pst=connection.prepareStatement(sql);
             pst.setNString(1,String.valueOf(id));
-            System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             if(rs.next())
             return new Client(rs.getLong("code"),rs.getString("nom"),rs.getString("prenom"),rs.getString("tel"),rs.getString("email"),rs.getString("adresse"));
@@ -81,7 +77,6 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
         String sql = "SELECT * FROM Client";
         try {
             pst=connection.prepareStatement(sql);
-            System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){
                 list.add(new Client(rs.getLong("code"),rs.getString("nom"),rs.getString("prenom"),rs.getString("tel"),rs.getString("email"),rs.getString("adresse")));
@@ -104,7 +99,6 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
             pst.setString(4,Client.getEmail());
             pst.setString(5,Client.getAdresse());
             pst.setLong(6, Client.getCode());
-            System.out.println("Success d'exec requete");
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -118,7 +112,6 @@ public class ClientDaoImpl extends AbstractDao implements IClientDao {
         String sql = "SELECT * FROM Client WHERE nom LIKE ?";
         try {
             pst=connection.prepareStatement(sql);
-            System.out.println("Success d'exec requete");
             pst.setNString(1,nom+"%");
             ResultSet rs=pst.executeQuery();
             while (rs.next()){

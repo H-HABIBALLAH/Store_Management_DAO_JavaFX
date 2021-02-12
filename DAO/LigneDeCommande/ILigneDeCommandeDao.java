@@ -1,4 +1,4 @@
-package StoreManagement.DAO.Vente;
+package StoreManagement.DAO.LigneDeCommande;
 
 import StoreManagement.DAO.IDao;
 
