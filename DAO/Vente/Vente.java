@@ -17,6 +17,8 @@ public class Vente {
         this.client = client;
     }
 
+
+
     public Vente(long numero, LocalDate date, Client client) {
         this.numero = numero;
         this.date = date;

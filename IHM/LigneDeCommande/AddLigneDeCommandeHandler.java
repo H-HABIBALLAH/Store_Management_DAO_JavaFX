@@ -1,4 +1,4 @@
-package StoreManagement.IHM.Vente;
+package StoreManagement.IHM.LigneDeCommande;
 
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Vente.LigneDeCommande;

@@ -1,9 +1,10 @@
-package StoreManagement.IHM.Vente;
+package StoreManagement.IHM.LigneDeCommande;
 
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Vente.LigneDeCommande;
 import StoreManagement.IHM.Client.ListClientWindow;
 import StoreManagement.IHM.Client.ModifyClientHandler;
+import StoreManagement.IHM.Vente.FormVenteWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -103,7 +104,6 @@ public class ModifyCommandeWindow {
                 formVenteWindow.addCommandeColumnsToTableView(formVenteWindow.commandeObservableList);
                 window.close();
             });
-
             annulerButton.setOnAction(e->{
                window.close();
             });

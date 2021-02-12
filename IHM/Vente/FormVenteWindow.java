@@ -4,6 +4,8 @@ import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Produit.Produit;
 import StoreManagement.DAO.Vente.LigneDeCommande;
 import StoreManagement.DAO.Vente.Vente;
+import StoreManagement.IHM.LigneDeCommande.AddLigneDeCommandeHandler;
+import StoreManagement.IHM.LigneDeCommande.ModifyCommandeWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,9 +19,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FormVenteWindow {
     Vente vente = null;
@@ -99,7 +98,7 @@ public class FormVenteWindow {
     TableColumn<LigneDeCommande, Double> prixColumnCommande=new TableColumn<>("Prix");
     TableColumn<LigneDeCommande,Integer> quantiteColumnCommande=new TableColumn<>("Qte");
     TableColumn<LigneDeCommande,String> sousTotalColumnCommande=new TableColumn<>("Sous total");
-    ObservableList<LigneDeCommande> commandeObservableList = FXCollections.observableArrayList();
+    public ObservableList<LigneDeCommande> commandeObservableList = FXCollections.observableArrayList();
 
     ListProduitVenteHandler listProduitVenteHandler = new ListProduitVenteHandler(this);
 
@@ -255,7 +254,6 @@ public class FormVenteWindow {
 
         enregistrerButton.setOnAction(e->{
             new AddVenteHandler(vente);
-            new UpdateVenteInfoHandler(vente);
             for(LigneDeCommande ligneDeCommande : commandeTable.getItems()){
                 ligneDeCommande.getVente().setNumero(vente.getNumero());
                 new AddLigneDeCommandeHandler(ligneDeCommande);
@@ -306,7 +304,7 @@ public class FormVenteWindow {
         produitTable.setItems(productsObservableList);
     }
 
-    void updateCommandeColmuns(){
+    public void updateCommandeColmuns(){
             idColumnCommande.setCellValueFactory(new PropertyValueFactory("produitId"));
             idColumnCommande.setPrefWidth(100);
 
@@ -323,7 +321,7 @@ public class FormVenteWindow {
             sousTotalColumnCommande.setPrefWidth(100);
     }
 
-    void addCommandeColumnsToTableView(ObservableList<LigneDeCommande> commandeObservableList){
+    public void addCommandeColumnsToTableView(ObservableList<LigneDeCommande> commandeObservableList){
         commandeTable.getColumns().clear();
         commandeTable.getColumns().addAll(idColumnCommande,designationColumnCommande,prixColumnCommande,quantiteColumnCommande,sousTotalColumnCommande);
         commandeTable.setItems(commandeObservableList);

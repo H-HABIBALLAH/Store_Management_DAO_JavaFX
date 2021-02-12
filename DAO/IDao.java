@@ -11,4 +11,5 @@ public interface IDao<T> {
     public List<T> getAll();
     public void deleteAll();
     public void update(T obj);
+
 }

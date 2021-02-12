@@ -1,8 +1,8 @@
 package StoreManagement.IHM.Client;
 
 import StoreManagement.DAO.Client.Client;
-import StoreManagement.IHM.Produit.*;
 import StoreManagement.IHM.Vente.FormVenteWindow;
+import StoreManagement.IHM.Vente.ListVenteWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -43,6 +43,7 @@ public class ListClientWindow {
     Button searchButton = new Button("Search");
     Button refreshButton = new Button("Refresh");
     Button addVenteButton = new Button("Add Vente");
+    Button listeVentesButton = new Button("Liste des Ventes");
     HBox buttonsHBox=new HBox(20);
     HBox buttonsHBoxParent=new HBox();
 
@@ -62,10 +63,11 @@ public class ListClientWindow {
         addVenteButton.getStyleClass().add("btn");
         deleteAllButton.getStyleClass().add("btn");
         deleteButton.getStyleClass().add("btn");
+        listeVentesButton.getStyleClass().add("btn");
     }
 
     private void addNodesToPane(){
-        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton,refreshButton,addVenteButton);
+        buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton,refreshButton,addVenteButton,listeVentesButton);
         buttonsHBoxParent.getChildren().add(buttonsHBox);
         root.getChildren().addAll(titleLabel,table,buttonsHBoxParent);
     }
@@ -92,6 +94,9 @@ public class ListClientWindow {
         });
         addVenteButton.setOnAction(e -> {
             new FormVenteWindow(rowClientClicked);
+        });
+        listeVentesButton.setOnAction(e->{
+            new ListVenteWindow(rowClientClicked);
         });
     }
 

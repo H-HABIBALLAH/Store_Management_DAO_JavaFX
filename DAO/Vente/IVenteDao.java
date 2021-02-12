@@ -2,6 +2,13 @@ package StoreManagement.DAO.Vente;
 
 import StoreManagement.DAO.IDao;
 
-public interface IVenteDao extends IDao<Vente> {
-    
-}
+import java.util.List;
+
+public interface IVenteDao{
+        public void add(Vente vente);
+        public void delete(long numero);
+        public List getAll(Long codeClient);
+        public void deleteAll();
+        public void update(Vente vente);
+        public Vente getOne(long numero);
+    }
