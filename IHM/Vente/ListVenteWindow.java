@@ -3,6 +3,7 @@ package StoreManagement.IHM.Vente;
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Vente.Vente;
 import StoreManagement.DAO.Vente.Vente;
+import StoreManagement.IHM.LigneDeCommande.ListLigneDeCommandeWindow;
 import StoreManagement.IHM.Vente.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,7 +48,6 @@ public class ListVenteWindow {
 
         Button deleteButton = new Button("Delete");
         Button deleteAllButton = new Button("Delete all");
-        Button modifyButton = new Button("Modify");
         Button searchButton = new Button("Search");
         Button refreshButton = new Button("Refresh");
         Button ListeCommandeButton = new Button("Liste des commandes");
@@ -64,7 +64,6 @@ public class ListVenteWindow {
             table.getStyleClass().add("table-row-cell");
             buttonsHBoxParent.setMargin(buttonsHBox,new Insets(20,0,0,0));
             table.setMinHeight(500);
-            modifyButton.getStyleClass().add("btn");
             searchButton.getStyleClass().add("btn");
             refreshButton.getStyleClass().add("btn");
             deleteAllButton.getStyleClass().add("btn");
@@ -73,7 +72,7 @@ public class ListVenteWindow {
         }
 
         private void addNodesToPane(){
-            buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,modifyButton,searchButton,refreshButton,ListeCommandeButton);
+            buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,searchButton,refreshButton,ListeCommandeButton);
             buttonsHBoxParent.getChildren().add(buttonsHBox);
             root.getChildren().addAll(titleLabel,table,buttonsHBoxParent);
         }
@@ -86,21 +85,17 @@ public class ListVenteWindow {
             deleteAllButton.setOnAction(e->{
                 new DeleteAllVenteHandler(this);
             });
-            modifyButton.setOnAction(e->{
-                //new ModifyVenteWindow(rowVenteClicked.getCode(),this);
-            });
             searchButton.setOnAction(e->{
-                new SearchVenteWindow(this);
+                new SearchVenteWindow(this.client,this);
             });
             refreshButton.setOnAction(e->{
-                new ListVenteHandler(client,this);
+                new RefreshVenteListHandler(client.getCode(),this);
             });
             table.setOnMouseClicked((MouseEvent event) -> {
                 rowVenteClicked = table.getSelectionModel().getSelectedItem();
-                System.out.println(rowVenteClicked.getNumero());
             });
             ListeCommandeButton.setOnAction(e->{
-                //new ListCommandeWindow(rowVenteClicked);
+                new ListLigneDeCommandeWindow(rowVenteClicked);
             });
         }
 
@@ -124,8 +119,11 @@ public class ListVenteWindow {
             codeClientColumn.setCellValueFactory(new PropertyValueFactory("codeClient"));
             codeClientColumn.setMinWidth(200);
 
-            totalColumn.setCellValueFactory(new PropertyValueFactory("total"));
+            totalColumn.setCellValueFactory(new PropertyValueFactory("totalOfTable"));
             totalColumn.setMinWidth(250);
+
+            codeClientColumn.setCellValueFactory(new PropertyValueFactory("codeClient"));
+            codeClientColumn.setMinWidth(250);
         }
 
         void addColumnsToTableView(ObservableList<Vente> ventesObservableList){

@@ -89,7 +89,7 @@ public class LigneDeCommande {
         return "LigneDeCommande{" +
                 "id=" + id +
                 ", qte=" + qte +
-                ", vente=" + vente +
+                ", vente=" + vente.getNumero() +
                 ", produit=" + produit +
                 ", sousTotal=" + sousTotal +
                 '}';

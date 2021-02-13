@@ -84,6 +84,5 @@ public class Produit {
                 ", " + quantity +
                 ", " + prixAchat +
                 ", " + prixVente +
-                ", " + prixVente +
                 ", " + categorie ;}
 }

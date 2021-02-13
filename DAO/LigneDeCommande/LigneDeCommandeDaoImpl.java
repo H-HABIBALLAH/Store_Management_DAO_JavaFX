@@ -15,6 +15,8 @@ import java.util.List;
 public class LigneDeCommandeDaoImpl extends AbstractDao{
     ProduitDaoImpl pdao = new ProduitDaoImpl();
     VenteDaoImpl vdao = new VenteDaoImpl();
+    Vente vente = null;
+    Produit produit = null;
 
     public void add(LigneDeCommande ligneDeCommande){
         PreparedStatement pst=null;
@@ -54,21 +56,18 @@ public class LigneDeCommandeDaoImpl extends AbstractDao{
         }
     }
 
-
- /*   @Override
-    public void delete(long code) {
+    public void delete(long id) {
         PreparedStatement pst=null;
-        String sql = "DELETE FROM LigneDeCommande WHERE code = ?";
+        String sql = "DELETE FROM LigneDeCommande WHERE id = ?";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setString(1, String.valueOf(code));
-            System.out.println("Success d'exec requete");
+            pst.setString(1, String.valueOf(id));
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-
+/*
     public void deleteAll() {
         PreparedStatement pst=null;
         String sql = "DELETE FROM LigneDeCommande";
@@ -85,24 +84,27 @@ public class LigneDeCommandeDaoImpl extends AbstractDao{
     public void update(LigneDeCommande obj) {
 
     }
+*/
 
-    @Override
     public LigneDeCommande getOne(long id) {
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM LigneDeCommande WHERE code = ?";
-        LigneDeCommande LigneDeCommande=null;
+        String sql = "SELECT * FROM LigneDeCommande WHERE id = ?";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setNString(1,String.valueOf(id));
+            pst.setLong(1,id);
             System.out.println("Success d'exec requete");
             ResultSet rs=pst.executeQuery();
-            if(rs.next())
-            return new LigneDeCommande(rs.getLong("code"),rs.getString("nom"),rs.getString("prenom"),rs.getString("tel"),rs.getString("email"),rs.getString("adresse"));
+            if(rs.next()) {
+                produit = pdao.getOne(rs.getLong("idProduit"));
+                vente = vdao.getOne(Long.valueOf(rs.getString("numVente")));
+                LigneDeCommande ligneDeCommande = new LigneDeCommande(rs.getLong("id"), rs.getInt("qte"), vente, produit);
+                return ligneDeCommande;
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
-    }*/
+    }
 
     public List<LigneDeCommande> getAll(long numeroVente) {
         List<LigneDeCommande> list = new ArrayList<LigneDeCommande>();
@@ -117,7 +119,7 @@ public class LigneDeCommandeDaoImpl extends AbstractDao{
             while (rs.next()){
                 produit = pdao.getOne(rs.getLong("idProduit"));
                 vente = vdao.getOne(Long.valueOf(rs.getString("numVente")));
-                list.add(new LigneDeCommande(0, rs.getInt("qte"), vente, produit));
+                list.add(new LigneDeCommande(rs.getLong("id"), rs.getInt("qte"), vente, produit));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -125,25 +127,6 @@ public class LigneDeCommandeDaoImpl extends AbstractDao{
         return list;
     }
 /*
-    public void update(LigneDeCommande LigneDeCommande) {
-        List<LigneDeCommande> list = new ArrayList<LigneDeCommande>();
-        PreparedStatement pst=null;
-        String sql = "UPDATE LigneDeCommande SET nom = ?, prenom = ?, tel = ? , email = ? , adresse = ?  WHERE code = ?";
-        try {
-            pst=connection.prepareStatement(sql);
-            pst.setString(1,LigneDeCommande.getNom());
-            pst.setString(2,LigneDeCommande.getPrenom());
-            pst.setString(3,LigneDeCommande.getTel());
-            pst.setString(4,LigneDeCommande.getEmail());
-            pst.setString(5,LigneDeCommande.getAdresse());
-            pst.setLong(6, LigneDeCommande.getCode());
-            System.out.println("Success d'exec requete");
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     @Override
     public List<LigneDeCommande> getAll(String nom) {
         List<LigneDeCommande> list = new ArrayList<LigneDeCommande>();

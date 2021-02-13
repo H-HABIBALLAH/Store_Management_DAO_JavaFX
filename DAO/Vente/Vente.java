@@ -18,7 +18,12 @@ public class Vente {
         this.client = client;
     }
 
-
+    public Vente(long numero, LocalDate date, double total, Client client) {
+        this.numero = numero;
+        this.date = date;
+        this.total = total;
+        this.client = client;
+    }
 
     public Vente(long numero, LocalDate date, Client client) {
         this.numero = numero;
@@ -47,11 +52,22 @@ public class Vente {
         return total;
     }
 
+    public double getTotalOfTable() {
+        return total;
+    }
+
+    public void setTotalOfTable(double total) {
+        this.total = total;
+    }
+
     public void calculerTotal() {
         total = 0;
         for(LigneDeCommande ligneDeCommande : ligneDeCommandeList){
+            System.out.println(ligneDeCommande);
             total+= ligneDeCommande.getSousTotal();
+            System.out.println(total);
         }
+        System.out.println(this);
     }
 
     public Client getClient() {
@@ -60,6 +76,14 @@ public class Vente {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public long getCodeClient() {
+        return client.getCode();
+    }
+
+    public void setCodeClient(long codeClient) {
+        client.setCode(codeClient);
     }
 
     public List<LigneDeCommande> getLigneCommandeList() {

@@ -3,6 +3,8 @@ package StoreManagement.DAO.Vente;
 import StoreManagement.DAO.AbstractDao;
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Client.ClientDaoImpl;
+import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
+import StoreManagement.DAO.LigneDeCommande.LigneDeCommandeDaoImpl;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -44,16 +46,17 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     }
 
     @Override
-    public Vente getOne(long numero) {
+    public Vente getOne(long numero, long codeClient) {
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM vente WHERE numero = ?";
+        String sql = "SELECT * FROM vente WHERE numero = ? AND codeClient = ?";
         try {
             pst=connection.prepareStatement(sql);
             pst.setLong(1,numero);
+            pst.setLong(2,codeClient);
             ResultSet rs=pst.executeQuery();
-            if(rs.next()) {
-                return new Vente(numero, rs.getDate("date").toLocalDate(), null);
-            }
+            Client client = clientDao.getOne(codeClient);
+            if(rs.next())
+                return new Vente(numero, rs.getDate("date").toLocalDate(), client);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -72,7 +75,8 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
             client = clientDao.getOne(codeClient);
             Vente vente = null;
             while (rs.next()){
-                vente = new Vente(rs.getLong("numero"), rs.getDate("date").toLocalDate(), client);
+                vente = new Vente(rs.getLong("numero"), rs.getDate("date").toLocalDate(), rs.getDouble("total"), client);
+                System.out.println(rs.getDouble("total"));
                 list.add(vente);
             }
         } catch (SQLException e) {
@@ -114,5 +118,21 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     @Override
     public void update(Vente vente) {
 
+    }
+
+    @Override
+    public Vente getOne(long numero) {
+        PreparedStatement pst=null;
+        String sql = "SELECT * FROM vente WHERE numero = ?";
+        try {
+            pst=connection.prepareStatement(sql);
+            pst.setLong(1,numero);
+            ResultSet rs=pst.executeQuery();
+            if(rs.next())
+                return new Vente(numero, rs.getDate("date").toLocalDate(), null);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

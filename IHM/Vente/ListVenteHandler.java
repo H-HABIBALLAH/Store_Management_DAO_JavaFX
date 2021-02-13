@@ -14,7 +14,6 @@ public class ListVenteHandler {
     public ListVenteHandler(Client client, ListVenteWindow listVentesWindow){
         this.client = client;
         this.listVentesWindow=listVentesWindow;
-        updateVentesListWIndow();
     }
 
     void updateVentesListWIndow(){

@@ -1,6 +1,7 @@
-package StoreManagement.IHM.Vente;
+package StoreManagement.IHM.LigneDeCommande;
 
-import StoreManagement.DAO.Client.Client;
+import StoreManagement.IHM.LigneDeCommande.ListLigneDeCommandeWindow;
+import StoreManagement.IHM.LigneDeCommande.SearchLigneDeCommandeHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,32 +13,30 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class SearchVenteWindow {
-    Client client;
-
+public class SearchLigneDeCommandeWindow {
     private Stage window=new Stage();
     private BorderPane root=new BorderPane();
     private Scene scene=new Scene(root);
     private HBox hbox=new HBox(10);
-    private Label numeroLabel=new Label("Numéro : ");
-    private TextField numeroTextField=new TextField();
+    private Label idLabel=new Label("Id : ");
+    private TextField idTextField=new TextField();
     private Button okButton=new Button("OK");
-    ListVenteWindow listVenteWindow=null;
+    ListLigneDeCommandeWindow listLigneDeCommandeWindow=null;
 
 
     private void addNodesToPane(){
-        hbox.getChildren().addAll(numeroLabel,numeroTextField,okButton);
+        hbox.getChildren().addAll(idLabel,idTextField,okButton);
         root.setCenter(hbox);
     }
 
     private void addStylesToNodes(){
         hbox.setPadding(new Insets(10));
-        numeroTextField.setMaxWidth(200);
+        idTextField.setMaxWidth(200);
     }
 
     private void addEventsToNodes(){
         okButton.setOnAction(e->{
-            new SearchVenteHandler(Long.valueOf(numeroTextField.getText()),client,listVenteWindow);
+            new SearchLigneDeCommandeHandler(Long.valueOf(idTextField.getText()),listLigneDeCommandeWindow);
             window.close();
 
         });
@@ -52,9 +51,8 @@ public class SearchVenteWindow {
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
-    public SearchVenteWindow(Client client, ListVenteWindow listVentesWindow){
-        this.client=client;
-        this.listVenteWindow=listVentesWindow;
+    public SearchLigneDeCommandeWindow(ListLigneDeCommandeWindow listLigneDeCommandesWindow){
+        this.listLigneDeCommandeWindow=listLigneDeCommandesWindow;
         initiWindow();
         addNodesToPane();
         addEventsToNodes();

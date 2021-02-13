@@ -11,4 +11,5 @@ public interface IVenteDao{
         public void deleteAll();
         public void update(Vente vente);
         public Vente getOne(long numero);
+        public Vente getOne(long numero,long codeClient);
     }

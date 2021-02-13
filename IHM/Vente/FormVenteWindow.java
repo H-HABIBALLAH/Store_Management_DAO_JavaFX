@@ -4,6 +4,7 @@ import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Produit.Produit;
 import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
 import StoreManagement.DAO.Vente.Vente;
+import StoreManagement.DAO.Vente.VenteDaoImpl;
 import StoreManagement.IHM.LigneDeCommande.AddLigneDeCommandeHandler;
 import StoreManagement.IHM.LigneDeCommande.ModifyCommandeWindow;
 import javafx.collections.FXCollections;
@@ -21,83 +22,74 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class FormVenteWindow {
-    Vente vente = null;
-    LigneDeCommande ligneDeCommande = null;
-    Produit produitClicked = null;
-    LigneDeCommande ligneDeCommandeClicked = null;
-    Client client = null;
+    private Vente vente = null;
+    private LigneDeCommande ligneDeCommande = null;
+    private Produit produitClicked = null;
+    private LigneDeCommande ligneDeCommandeClicked = null;
 
-    Stage window=new Stage();
-    VBox rootVBox = new VBox(10);
-    Scene scene=new Scene(rootVBox);
+    private Stage window=new Stage();
+    private VBox rootVBox = new VBox(10);
+    private Scene scene=new Scene(rootVBox);
 
-    StackPane tableStackPane = new StackPane();
-    HBox buttonsHBox = new HBox(20);
-    HBox bodyHBox = new HBox(5);
-    VBox rightVBox = new VBox(5);
-    VBox leftVBox = new VBox(10);
-    VBox detailVenteInputVBox = new VBox(3);
-    VBox detailVenteVBox = new VBox(3);
-    VBox leftInputCommandeVBox = new VBox(5);
-    VBox venteReglementVBOX = new VBox();
-    VBox lignesCommendeVBOX = new VBox();
-    VBox addCommandeVBox = new VBox(5);
-    HBox inputCommandeHBox = new HBox();
-    HBox rightInputCommandeHBox = new HBox();
-    HBox rightInputCommandeButtonsHBox = new HBox(10);
-    HBox numVenteHBox = new HBox();
-    HBox clientHBox = new HBox();
-    HBox dateHBox = new HBox();
-    HBox codeProduitHBox = new HBox();
-    HBox designationHBox = new HBox();
-    HBox prixHBox = new HBox();
-    HBox quantiteHBox = new HBox();
+    private StackPane tableStackPane = new StackPane();
+    private HBox buttonsHBox = new HBox(20);
+    private HBox bodyHBox = new HBox(5);
+    private VBox rightVBox = new VBox(5);
+    private VBox leftVBox = new VBox(10);
+    private VBox detailVenteInputVBox = new VBox(3);
+    private VBox detailVenteVBox = new VBox(3);
+    private VBox leftInputCommandeVBox = new VBox(5);
+    private VBox venteReglementVBOX = new VBox();
+    private VBox addCommandeVBox = new VBox(5);
+    private HBox inputCommandeHBox = new HBox();
+    private HBox rightInputCommandeHBox = new HBox();
+    private HBox rightInputCommandeButtonsHBox = new HBox(10);
+    private HBox numVenteHBox = new HBox();
+    private HBox clientHBox = new HBox();
+    private HBox dateHBox = new HBox();
+    private HBox codeProduitHBox = new HBox();
+    private HBox designationHBox = new HBox();
+    private HBox prixHBox = new HBox();
+    private HBox quantiteHBox = new HBox();
 
-    Label venteDetailLabel = new Label("Détail de vente");
-    Label numVenteLabel = new Label("N°Vente");
-    Label clientLabel = new Label("Client: ");
-    Label dateLabel = new Label("Date: ");
-    Label codeProduitLabel = new Label("Code: ");
-    Label designationLabel = new Label("Designation : ");
-    Label prixLabel = new Label("Prix: ");
-    Label quantiteLabel = new Label("QTE: ");
-    Label venteReglementLabel = new Label("Règlement de vente");
-    Label totalHTLabel = new Label("Total HT: ");
-    Label tva7Label = new Label("TVA 7%: ");
-    Label tva20Label = new Label("TVA 20%: ");
-    Label totalLabel = new Label("Total: ");
-    Label lignesCommandeLabel = new Label("Lignes de commande");
+    private Label venteDetailLabel = new Label("Détail de vente");
+    private Label clientLabel = new Label("Client: ");
+    private Label dateLabel = new Label("Date: ");
+    private Label codeProduitLabel = new Label("Code: ");
+    private Label designationLabel = new Label("Designation : ");
+    private Label prixLabel = new Label("Prix: ");
+    private Label quantiteLabel = new Label("QTE: ");
+    private Label venteReglementLabel = new Label("Règlement de vente");
+    private Label totalLabel = new Label("Total: ");
+    private Label lignesCommandeLabel = new Label("Lignes de commande");
 
-    TextField numVenteInput = new TextField();
-    TextField clientInput = new TextField();
-    TextField dateInput = new TextField();
+    private TextField idProduitInput = new TextField();
+    private TextField designationInput = new TextField();
+    private TextField prixInput = new TextField();
+    private TextField quantiteInput = new TextField();
 
-    TextField idProduitInput = new TextField();
-    TextField designationInput = new TextField();
-    TextField prixInput = new TextField();
-    TextField quantiteInput = new TextField();
+    private Button enregistrerButton = new Button("Enregistrer");
+    private Button modifierButton = new Button("modifier");
+    private Button reglementButton = new Button("Règlements");
+    private Button quitterButton = new Button("Quitter");
+    private Button ajouterCommandeButton = new Button("+");
+    private Button supprimerCommandeButton = new Button("-");
 
-    Button enregistrerButton = new Button("Enregistrer");
-    Button modifierButton = new Button("modifier");
-    Button quitterButton = new Button("Quitter");
-    Button ajouterCommandeButton = new Button("+");
-    Button supprimerCommandeButton = new Button("-");
+    private TableView<Produit> produitTable = new TableView();
+    private TableColumn<Produit,Long> idColumnProduit=new TableColumn<>("Id");
+    private TableColumn<Produit,String> designationColumnProduit=new TableColumn<>("Designation");
+    private TableColumn<Produit,Double> prixAchatColumnProduit=new TableColumn<>("prixAchat");
+    private TableColumn<Produit,Integer> quantiteColumnProduit=new TableColumn<>("Quantité");
+    private TableColumn<Produit, Double> prixVenteColumnProduit=new TableColumn<>("prixVente");
+    private TableColumn<Produit,String> categorieColumnProduit=new TableColumn<>("Catégorie");
+    private ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
 
-    TableView<Produit> produitTable = new TableView();
-    TableColumn<Produit,Long> idColumnProduit=new TableColumn<>("Id");
-    TableColumn<Produit,String> designationColumnProduit=new TableColumn<>("Designation");
-    TableColumn<Produit,Double> prixAchatColumnProduit=new TableColumn<>("prixAchat");
-    TableColumn<Produit,Integer> quantiteColumnProduit=new TableColumn<>("Quantité");
-    TableColumn<Produit, Double> prixVenteColumnProduit=new TableColumn<>("prixVente");
-    TableColumn<Produit,String> categorieColumnProduit=new TableColumn<>("Catégorie");
-    ObservableList<Produit> productsObservableList = FXCollections.observableArrayList();
-
-    TableView<LigneDeCommande> commandeTable = new TableView();
-    TableColumn<LigneDeCommande,Long> idColumnCommande=new TableColumn<>("Id produit");
-    TableColumn<LigneDeCommande,String> designationColumnCommande=new TableColumn<>("Produit Designation");
-    TableColumn<LigneDeCommande, Double> prixColumnCommande=new TableColumn<>("Prix");
-    TableColumn<LigneDeCommande,Integer> quantiteColumnCommande=new TableColumn<>("Qte");
-    TableColumn<LigneDeCommande,String> sousTotalColumnCommande=new TableColumn<>("Sous total");
+    private TableView<LigneDeCommande> commandeTable = new TableView();
+    private TableColumn<LigneDeCommande,Long> idColumnCommande=new TableColumn<>("Id produit");
+    private TableColumn<LigneDeCommande,String> designationColumnCommande=new TableColumn<>("Produit Designation");
+    private TableColumn<LigneDeCommande, Double> prixColumnCommande=new TableColumn<>("Prix");
+    private TableColumn<LigneDeCommande,Integer> quantiteColumnCommande=new TableColumn<>("Qte");
+    private TableColumn<LigneDeCommande,String> sousTotalColumnCommande=new TableColumn<>("Sous total");
     public ObservableList<LigneDeCommande> commandeObservableList = FXCollections.observableArrayList();
 
     ListProduitVenteHandler listProduitVenteHandler = new ListProduitVenteHandler(this);
@@ -108,11 +100,10 @@ public class FormVenteWindow {
     }
 
     private void addNodesToPane(){
-        buttonsHBox.getChildren().addAll(enregistrerButton,modifierButton,quitterButton);
+        buttonsHBox.getChildren().addAll(enregistrerButton,modifierButton,reglementButton,quitterButton);
 
-        numVenteHBox.getChildren().addAll(numVenteLabel,numVenteInput);
-        clientHBox.getChildren().addAll(clientLabel,clientInput);
-        dateHBox.getChildren().addAll(dateLabel,dateInput);
+        clientHBox.getChildren().addAll(clientLabel);
+        dateHBox.getChildren().addAll(dateLabel);
         detailVenteInputVBox.getChildren().addAll(numVenteHBox,clientHBox,dateHBox);
         detailVenteVBox.getChildren().addAll(venteDetailLabel,detailVenteInputVBox);
 
@@ -131,7 +122,7 @@ public class FormVenteWindow {
 
         addCommandeVBox.setStyle("-fx-border-color: gray;\n" + "-fx-border-width: 0.5;");
 
-        venteReglementVBOX.getChildren().addAll(venteReglementLabel,totalHTLabel,tva7Label,tva20Label,totalLabel);
+        venteReglementVBOX.getChildren().addAll(venteReglementLabel,totalLabel);
 
 
         leftVBox.getChildren().addAll(detailVenteVBox,addCommandeVBox);
@@ -147,13 +138,19 @@ public class FormVenteWindow {
         buttonsHBox.getStyleClass().add("btnHbox");
         enregistrerButton.getStyleClass().add("btn");
         modifierButton.getStyleClass().add("btn");
+        reglementButton.getStyleClass().add("btn");
         quitterButton.getStyleClass().add("btn");
         ajouterCommandeButton.getStyleClass().add("btn");
         supprimerCommandeButton.getStyleClass().add("btn");
 
+        clientLabel.setStyle("-fx-font-size: 20;");
+        dateLabel.setStyle("-fx-font-size: 20; ");
+
         lignesCommandeLabel.getStyleClass().add("venteTitleLabel");
         venteDetailLabel.getStyleClass().add("venteTitleLabel");
         venteReglementLabel.getStyleClass().add("venteTitleLabel");
+
+        totalLabel.setStyle("-fx-font-size: 40");
 
         leftVBox.getStyleClass().add("rightAndLeftVBox");
         rightVBox.getStyleClass().add("rightAndLeftVBox");
@@ -165,7 +162,6 @@ public class FormVenteWindow {
         ajouterCommandeButton.setStyle("-fx-font-size: 50px");
         supprimerCommandeButton.setStyle("-fx-font-size: 50px");
 
-        numVenteLabel.setMinWidth(100);
         clientLabel.setMinWidth(100);
         dateLabel.setMinWidth(100);
         codeProduitLabel.setMinWidth(100);
@@ -179,9 +175,8 @@ public class FormVenteWindow {
     }
 
     private void updateVenteDetailsInputs(){
-        numVenteInput.setText(String.valueOf(vente.getNumero()));
-        dateInput.setText(String.valueOf(vente.getDate()));
-        clientInput.setText(vente.getClient().getPrenom()+" "+vente.getClient().getNom());
+        dateLabel.setText("Date :  "+vente.getDate());
+        clientLabel.setText("Client :  "+vente.getClient().getPrenom()+" "+vente.getClient().getNom());
     }
 
     private void updateProduitInputs(Produit produitClicked){
@@ -193,22 +188,24 @@ public class FormVenteWindow {
 
     private void clearProduitInputs(){
         idProduitInput.clear();
-        designationInput.clear();;
-        prixInput.clear();;
-        quantiteInput.clear();;
+        designationInput.clear();
+        prixInput.clear();
+        quantiteInput.clear();
     }
 
     private void createLigneDeCommande(){
-        ligneDeCommande=new LigneDeCommande(0,Integer.valueOf(quantiteInput.getText()),vente,produitClicked);
+        ligneDeCommande = new LigneDeCommande(0,Integer.valueOf(quantiteInput.getText()),vente,produitClicked);
     }
+
+    LigneDeCommande ligneDeCommandeExisting;
+    int index = 0;
+    int clickedCommandeIndex = 0;
 
     private Boolean produitExistInTable(){
         for (int i = 0; i < commandeTable.getItems().size(); i++) {
-            LigneDeCommande ligneDeCommande = commandeTable.getItems().get(i);
-            if (produitClicked.getId() == idColumnCommande.getCellObservableValue(ligneDeCommande).getValue()) {
-                int newQte = Integer.valueOf(quantiteInput.getText())+ligneDeCommande.getQte();
-                ligneDeCommande.setQte(newQte);
-                commandeTable.getItems().set(i, ligneDeCommande);
+            ligneDeCommandeExisting = commandeTable.getItems().get(i);
+            if (produitClicked.getId() == idColumnCommande.getCellObservableValue(ligneDeCommandeExisting).getValue()) {
+                index = i;
                 return true;
             }
         }
@@ -216,9 +213,22 @@ public class FormVenteWindow {
     }
 
     private void addCommandeToObservableList(LigneDeCommande ligneDeCommande){
-        if(!produitExistInTable()){
+        if(produitExistInTable()){
+            int newQte = Integer.valueOf(quantiteInput.getText())+ligneDeCommandeExisting.getQte();
+            ligneDeCommande.setQte(newQte);
+            commandeTable.getItems().set(index, ligneDeCommande);
+            vente.getLigneCommandeList().get(index).setQte(newQte);
+            updateTotalValue();
+        }
+        else{
+            vente.getLigneCommandeList().add(ligneDeCommande);
+            updateTotalValue();
             commandeObservableList.add(ligneDeCommande);
         }
+    }
+
+    private void updateTotalValue(){
+        totalLabel.setText("Total :  "+vente.getTotal());
     }
 
     private void addEventsToNodes(){
@@ -240,16 +250,20 @@ public class FormVenteWindow {
             updateCommandeColmuns();
             addCommandeColumnsToTableView(commandeObservableList);
         });
-        
+
+        supprimerCommandeButton.setOnAction(e->{
+            vente.getLigneCommandeList().remove(clickedCommandeIndex);
+            System.out.println(vente.getLigneCommandeList());
+            updateTotalValue();
+            commandeObservableList.remove(ligneDeCommandeClicked);
+            updateCommandeColmuns();
+        });
+
         commandeTable.setOnMouseClicked((MouseEvent e) ->{
             if(e.getClickCount() == 1){
                 ligneDeCommandeClicked = commandeTable.getSelectionModel().getSelectedItem();
+                clickedCommandeIndex = commandeTable.getSelectionModel().getSelectedIndex();
             }
-        });
-        
-        supprimerCommandeButton.setOnAction(e->{
-           commandeObservableList.remove(ligneDeCommandeClicked);
-           updateCommandeColmuns();
         });
 
         enregistrerButton.setOnAction(e->{
@@ -263,6 +277,10 @@ public class FormVenteWindow {
 
         modifierButton.setOnAction(e->{
             new ModifyCommandeWindow(ligneDeCommandeClicked,this);
+        });
+
+        reglementButton.setOnAction(e->{
+            //new ModifyCommandeWindow(ligneDeCommandeClicked,this);
         });
 
         quitterButton.setOnAction(e->{
