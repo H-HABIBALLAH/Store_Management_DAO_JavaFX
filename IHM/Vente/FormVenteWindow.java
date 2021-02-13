@@ -4,9 +4,9 @@ import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Produit.Produit;
 import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
 import StoreManagement.DAO.Vente.Vente;
-import StoreManagement.DAO.Vente.VenteDaoImpl;
 import StoreManagement.IHM.LigneDeCommande.AddLigneDeCommandeHandler;
 import StoreManagement.IHM.LigneDeCommande.ModifyCommandeWindow;
+import StoreManagement.IHM.Paiement.FormPaiementWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -22,10 +22,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class FormVenteWindow {
-    private Vente vente = null;
-    private LigneDeCommande ligneDeCommande = null;
-    private Produit produitClicked = null;
-    private LigneDeCommande ligneDeCommandeClicked = null;
+    Client client;
+    GetLastVenteNumHandler getLastVenteNumHandler = new GetLastVenteNumHandler();
+    long venteNumInDB = getLastVenteNumHandler.getNum();
+    private Vente vente;
+    private LigneDeCommande ligneDeCommande;
+    private Produit produitClicked;
+    private LigneDeCommande ligneDeCommandeClicked;
 
     private Stage window=new Stage();
     private VBox rootVBox = new VBox(10);
@@ -53,6 +56,7 @@ public class FormVenteWindow {
     private HBox quantiteHBox = new HBox();
 
     private Label venteDetailLabel = new Label("Détail de vente");
+    private Label numVenteLabel = new Label("N° Vente : "+venteNumInDB);
     private Label clientLabel = new Label("Client: ");
     private Label dateLabel = new Label("Date: ");
     private Label codeProduitLabel = new Label("Code: ");
@@ -104,7 +108,7 @@ public class FormVenteWindow {
 
         clientHBox.getChildren().addAll(clientLabel);
         dateHBox.getChildren().addAll(dateLabel);
-        detailVenteInputVBox.getChildren().addAll(numVenteHBox,clientHBox,dateHBox);
+        detailVenteInputVBox.getChildren().addAll(numVenteLabel,numVenteHBox,clientHBox,dateHBox);
         detailVenteVBox.getChildren().addAll(venteDetailLabel,detailVenteInputVBox);
 
         codeProduitHBox.getChildren().addAll(codeProduitLabel,idProduitInput);
@@ -143,6 +147,7 @@ public class FormVenteWindow {
         ajouterCommandeButton.getStyleClass().add("btn");
         supprimerCommandeButton.getStyleClass().add("btn");
 
+        numVenteLabel.setStyle("-fx-font-size: 20;");
         clientLabel.setStyle("-fx-font-size: 20;");
         dateLabel.setStyle("-fx-font-size: 20; ");
 
@@ -267,7 +272,7 @@ public class FormVenteWindow {
         });
 
         enregistrerButton.setOnAction(e->{
-            new AddVenteHandler(vente);
+            new UpdateVenteHandler(vente);
             for(LigneDeCommande ligneDeCommande : commandeTable.getItems()){
                 ligneDeCommande.getVente().setNumero(vente.getNumero());
                 new AddLigneDeCommandeHandler(ligneDeCommande);
@@ -280,10 +285,12 @@ public class FormVenteWindow {
         });
 
         reglementButton.setOnAction(e->{
-            //new ModifyCommandeWindow(ligneDeCommandeClicked,this);
+            new FormPaiementWindow(vente);
         });
 
         quitterButton.setOnAction(e->{
+            new DeleteAllPaiementHandler(vente.getNumero());
+            new DeleteVenteHandler(vente.getNumero(),client.getCode(),null);
             window.close();
         });
     }
@@ -346,7 +353,8 @@ public class FormVenteWindow {
     }
 
     public FormVenteWindow(Client client) {
-        vente = new Vente(client);
+        this.client = client;
+        vente = new Vente(venteNumInDB,client);
         initiWindow();
         addStylesToNodes();
         addProduitColumnsToTableView();

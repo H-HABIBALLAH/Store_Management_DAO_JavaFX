@@ -1,6 +1,8 @@
 package StoreManagement.IHM.Client;
 
 import StoreManagement.DAO.Client.Client;
+import StoreManagement.DAO.Vente.Vente;
+import StoreManagement.IHM.Vente.AddVenteHandler;
 import StoreManagement.IHM.Vente.FormVenteWindow;
 import StoreManagement.IHM.Vente.ListVenteWindow;
 import javafx.collections.FXCollections;
@@ -93,6 +95,7 @@ public class ListClientWindow {
             rowClientClicked = table.getSelectionModel().getSelectedItem();
         });
         addVenteButton.setOnAction(e -> {
+            new AddVenteHandler(new Vente(rowClientClicked));
             new FormVenteWindow(rowClientClicked);
         });
         listeVentesButton.setOnAction(e->{

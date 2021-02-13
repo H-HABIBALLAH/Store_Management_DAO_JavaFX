@@ -18,6 +18,11 @@ public class Vente {
         this.client = client;
     }
 
+    public Vente(long numero, Client client) {
+        this.numero = numero;
+        this.client = client;
+    }
+
     public Vente(long numero, LocalDate date, double total, Client client) {
         this.numero = numero;
         this.date = date;

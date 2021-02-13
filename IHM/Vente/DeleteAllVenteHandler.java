@@ -1,5 +1,6 @@
 package StoreManagement.IHM.Vente;
 
+import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.LigneDeCommande.LigneDeCommandeDaoImpl;
 import StoreManagement.DAO.Vente.Vente;
 import StoreManagement.DAO.Vente.VenteDaoImpl;
@@ -12,8 +13,10 @@ public class DeleteAllVenteHandler {
     VenteDaoImpl vdao = null;
     LigneDeCommandeDaoImpl ldao = null;
     ListVenteWindow listVenteWindow = null;
+    Client client;
 
-    public DeleteAllVenteHandler(ListVenteWindow listVenteWindow) {
+    public DeleteAllVenteHandler(Client client, ListVenteWindow listVenteWindow) {
+        this.client = client;
         vdao = new VenteDaoImpl();
         ldao = new LigneDeCommandeDaoImpl();
         this.listVenteWindow = listVenteWindow;
@@ -22,7 +25,7 @@ public class DeleteAllVenteHandler {
 
     private void deleteAll() {
         ldao.deleteAll();
-        vdao.deleteAll();
+        vdao.deleteAll(client);
         listVenteWindow.getTable().getColumns().clear();
         listVenteWindow.getTable().getItems().clear();
         ventesList=vdao.getAll();

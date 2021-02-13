@@ -83,7 +83,7 @@ public class ListVenteWindow {
                     new DeleteVenteHandler(rowVenteClicked.getNumero(),rowVenteClicked.getClient().getCode(),this);
             });
             deleteAllButton.setOnAction(e->{
-                new DeleteAllVenteHandler(this);
+                new DeleteAllVenteHandler(client,this);
             });
             searchButton.setOnAction(e->{
                 new SearchVenteWindow(this.client,this);

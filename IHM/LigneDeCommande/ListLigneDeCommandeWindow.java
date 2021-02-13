@@ -77,7 +77,7 @@ public class ListLigneDeCommandeWindow {
                 new DeleteLigneDeCommandeHandler(rowLigneDeCommandeClicked.getId(),vente,this);
         });
         deleteAllButton.setOnAction(e->{
-            new DeleteAllLigneDeCommandeHandler(this);
+            new DeleteAllLigneDeCommandeHandler(vente,this);
         });
         searchButton.setOnAction(e->{
             new SearchLigneDeCommandeWindow(this);

@@ -1,10 +1,12 @@
-package StoreManagement.DAO.Vente;
+package StoreManagement.DAO.Paiement;
 
 import StoreManagement.DAO.AbstractDao;
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Client.ClientDaoImpl;
-import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
-import StoreManagement.DAO.LigneDeCommande.LigneDeCommandeDaoImpl;
+import StoreManagement.DAO.Paiement.IPaiementDao;
+import StoreManagement.DAO.Paiement.Paiement;
+import StoreManagement.DAO.Vente.Vente;
+import StoreManagement.DAO.Vente.VenteDaoImpl;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,19 +15,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VenteDaoImpl extends AbstractDao implements IVenteDao {
-    Client client = null;
-    ClientDaoImpl clientDao = new ClientDaoImpl();
+public class PaiementDaoImpl extends AbstractDao implements IPaiementDao {
+    Vente vente = null;
+    VenteDaoImpl vDao = new VenteDaoImpl();
 
     @Override
-    public void add(Vente vente) {
+    public void add(Paiement Paiement) {
         PreparedStatement pst=null;
-        String sql = "INSERT INTO vente (date, total, codeClient) VALUES (?,?,?)";
+        String sql = "INSERT INTO Paiement (date, montant, type, numVente) VALUES (?,?,?,?)";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setDate(1, Date.valueOf(vente.getDate()));
-            pst.setDouble(2,vente.getTotal());
-            pst.setLong(3,vente.getClient().getCode());
+            pst.setDate(1, Date.valueOf(Paiement.getDate()));
+            pst.setDouble(2,Paiement.getMontant());
+            pst.setString(3,Paiement.getType());
+            pst.setLong(4,Paiement.getVente().getNumero());
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -35,10 +38,10 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     @Override
     public void delete(long numero) {
         PreparedStatement pst=null;
-        String sql = "DELETE FROM Vente WHERE numero = ?";
+        String sql = "DELETE FROM Paiement WHERE numero = ?";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setString(1, String.valueOf(numero));
+            pst.setLong(1, numero);
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -46,17 +49,17 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     }
 
     @Override
-    public Vente getOne(long numero, long codeClient) {
+    public Paiement getOne(long numero, long numVente) {
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM vente WHERE numero = ? AND codeClient = ?";
+        String sql = "SELECT * FROM Paiement WHERE numero = ? AND numVente = ?";
         try {
             pst=connection.prepareStatement(sql);
             pst.setLong(1,numero);
-            pst.setLong(2,codeClient);
+            pst.setLong(2,numVente);
             ResultSet rs=pst.executeQuery();
-            Client client = clientDao.getOne(codeClient);
+            Vente vente = vDao.getOne(numVente);
             if(rs.next())
-                return new Vente(numero, rs.getDate("date").toLocalDate(), client);
+                return new Paiement(numero, rs.getDate("date").toLocalDate(), rs.getDouble("montant"), rs.getString("type"), vente);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -64,20 +67,19 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     }
 
     @Override
-    public List getAll(Long codeClient) {
-        List<Vente> list = new ArrayList<>();
+    public List getAll(long numVente) {
+        List<Paiement> list = new ArrayList<>();
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM vente WHERE codeClient = ?";
+        String sql = "SELECT * FROM Paiement WHERE numVente = ?";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setLong(1,codeClient);
+            pst.setLong(1,numVente);
             ResultSet rs=pst.executeQuery();
-            client = clientDao.getOne(codeClient);
-            Vente vente = null;
+            vente = vDao.getOne(numVente);
+            Paiement Paiement = null;
             while (rs.next()){
-                vente = new Vente(rs.getLong("numero"), rs.getDate("date").toLocalDate(), rs.getDouble("total"), client);
-                System.out.println(rs.getDouble("total"));
-                list.add(vente);
+                Paiement = new Paiement(rs.getLong("numero"), rs.getDate("date").toLocalDate(), rs.getDouble("montant"), rs.getString("type"), vente);
+                list.add(Paiement);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -86,16 +88,16 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     }
 
     public List getAll() {
-        List<Vente> list = new ArrayList<>();
+        List<Paiement> list = new ArrayList<>();
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM vente";
+        String sql = "SELECT * FROM Paiement";
         try {
             pst=connection.prepareStatement(sql);
             ResultSet rs=pst.executeQuery();
-            Vente vente = null;
+            Paiement Paiement = null;
             while (rs.next()){
-                vente = new Vente(rs.getLong("numero"), rs.getDate("date").toLocalDate(), client);
-                list.add(vente);
+                Paiement = new Paiement(rs.getLong("numero"), rs.getDate("date").toLocalDate(), rs.getDouble("montant"), rs.getString("type"), null);
+                list.add(Paiement);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -103,13 +105,12 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
         return list;
     }
 
-    @Override
-    public void deleteAll(Client  client) {
+    public void deleteAll(long numVente) {
         PreparedStatement pst=null;
-        String sql = "DELETE FROM vente where codeClient = ?";
+        String sql = "DELETE FROM Paiement WHERE numVente = ?";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setLong(1,client.getCode());
+            pst.setLong(1,numVente);
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -117,15 +118,11 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     }
 
     @Override
-    public void update(Vente vente) {
+    public void deleteAll() {
         PreparedStatement pst=null;
-        String sql = "UPDATE vente SET date = ? , total = ? , codeClient = ?  WHERE numero = ?";
+        String sql = "DELETE FROM Paiement";
         try {
             pst=connection.prepareStatement(sql);
-            pst.setDate(1, Date.valueOf(vente.getDate()));
-            pst.setDouble(2,vente.getTotal());
-            pst.setLong(3,vente.getClient().getCode());
-            pst.setLong(4,vente.getNumero());
             pst.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -133,15 +130,20 @@ public class VenteDaoImpl extends AbstractDao implements IVenteDao {
     }
 
     @Override
-    public Vente getOne(long numero) {
+    public void update(Paiement Paiement) {
+
+    }
+
+    @Override
+    public Paiement getOne(long numero) {
         PreparedStatement pst=null;
-        String sql = "SELECT * FROM vente WHERE numero = ?";
+        String sql = "SELECT * FROM Paiement WHERE numero = ?";
         try {
             pst=connection.prepareStatement(sql);
             pst.setLong(1,numero);
             ResultSet rs=pst.executeQuery();
             if(rs.next())
-                return new Vente(numero, rs.getDate("date").toLocalDate(), null);
+                return new Paiement(rs.getLong("numero"), rs.getDate("date").toLocalDate(), rs.getDouble("montant"), rs.getString("type"), null);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
