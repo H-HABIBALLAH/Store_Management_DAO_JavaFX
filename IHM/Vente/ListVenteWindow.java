@@ -2,9 +2,8 @@ package StoreManagement.IHM.Vente;
 
 import StoreManagement.DAO.Client.Client;
 import StoreManagement.DAO.Vente.Vente;
-import StoreManagement.DAO.Vente.Vente;
 import StoreManagement.IHM.LigneDeCommande.ListLigneDeCommandeWindow;
-import StoreManagement.IHM.Vente.*;
+import StoreManagement.IHM.Paiement.ListPaiementWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -51,6 +50,7 @@ public class ListVenteWindow {
         Button searchButton = new Button("Search");
         Button refreshButton = new Button("Refresh");
         Button ListeCommandeButton = new Button("Liste des commandes");
+        Button listePaiementButton = new Button("Liste des paiements");
         HBox buttonsHBox=new HBox(20);
         HBox buttonsHBoxParent=new HBox();
 
@@ -69,10 +69,11 @@ public class ListVenteWindow {
             deleteAllButton.getStyleClass().add("btn");
             deleteButton.getStyleClass().add("btn");
             ListeCommandeButton.getStyleClass().add("btn");
+            listePaiementButton.getStyleClass().add("btn");
         }
 
         private void addNodesToPane(){
-            buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,searchButton,refreshButton,ListeCommandeButton);
+            buttonsHBox.getChildren().addAll(deleteButton,deleteAllButton,searchButton,refreshButton,ListeCommandeButton,listePaiementButton);
             buttonsHBoxParent.getChildren().add(buttonsHBox);
             root.getChildren().addAll(titleLabel,table,buttonsHBoxParent);
         }
@@ -96,6 +97,10 @@ public class ListVenteWindow {
             });
             ListeCommandeButton.setOnAction(e->{
                 new ListLigneDeCommandeWindow(rowVenteClicked);
+            });
+
+            listePaiementButton.setOnAction(e->{
+                new ListPaiementWindow(rowVenteClicked);
             });
         }
 

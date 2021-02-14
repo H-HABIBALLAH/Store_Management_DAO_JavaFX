@@ -6,6 +6,7 @@ import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
 import StoreManagement.DAO.Vente.Vente;
 import StoreManagement.IHM.LigneDeCommande.AddLigneDeCommandeHandler;
 import StoreManagement.IHM.LigneDeCommande.ModifyCommandeWindow;
+import StoreManagement.IHM.Paiement.DeleteAllPaiementHandler;
 import StoreManagement.IHM.Paiement.FormPaiementWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

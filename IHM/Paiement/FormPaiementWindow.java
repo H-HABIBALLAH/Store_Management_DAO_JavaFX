@@ -151,15 +151,17 @@ public class FormPaiementWindow {
         paiementDetailLabel.setMinWidth(300);
     }
 
+    double totalPaye;
     private void updateVenteDetailsInfos(){
         clientLabel.setText("Client :  "+vente.getClient().getPrenom()+" "+vente.getClient().getNom());
         numVenteLabel.setText("N°Vente :  "+vente.getNumero());
         totalLabel.setText("Total :  "+vente.getTotal());
         dateLabel.setText("Date :  "+vente.getDate());
         if(!montantInput.getText().isEmpty())
-        {
-            totalPayeLabel.setText("Total payé :  "+montantInput.getText());
-            resteLabel.setText("Reste :  "+(vente.getTotal()-Double.valueOf(montantInput.getText())));
+        {   totalPaye = 0;
+            for (Paiement paiement : paiementObservableList) totalPaye += paiement.getMontant();
+            totalPayeLabel.setText("Total payé :  "+totalPaye);
+            resteLabel.setText("Reste :  "+(vente.getTotal()-totalPaye));
         }
     }
 
@@ -182,8 +184,8 @@ public class FormPaiementWindow {
         enregistrerButton.setOnAction(e->{
             Paiement paiement = createPaiementFromInputs();
             new AddPaiementHandler(vente,paiement);
-            updateVenteDetailsInfos();
             paiementObservableList.add(paiement);
+            updateVenteDetailsInfos();
             updatePaiementColmuns();
             addPaimentColumnsToTableView(paiementObservableList);
         });

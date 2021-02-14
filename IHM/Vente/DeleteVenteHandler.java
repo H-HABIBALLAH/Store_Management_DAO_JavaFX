@@ -1,6 +1,5 @@
 package StoreManagement.IHM.Vente;
 
-import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
 import StoreManagement.DAO.LigneDeCommande.LigneDeCommandeDaoImpl;
 import StoreManagement.DAO.Vente.Vente;
 import StoreManagement.DAO.Vente.VenteDaoImpl;
@@ -18,11 +17,15 @@ public class DeleteVenteHandler {
         LigneDeCommandeDaoImpl ldao = new LigneDeCommandeDaoImpl();
         ldao.deleteAll(numero);
         vdao.delete(Long.valueOf(numero));
-        listVenteWindow.getTable().getColumns().clear();
-        listVenteWindow.getTable().getItems().clear();
+        if(listVenteWindow != null){
+            listVenteWindow.getTable().getColumns().clear();
+            listVenteWindow.getTable().getItems().clear();
+        }
         ventelist=vdao.getAll(codeClient);
         ventesObservableList.addAll(ventelist);
-        listVenteWindow.addColumnsToTableView(ventesObservableList);
-        listVenteWindow.updateColmuns();
+        if(listVenteWindow !=null){
+            listVenteWindow.addColumnsToTableView(ventesObservableList);
+            listVenteWindow.updateColmuns();
+        }
     }
 }
