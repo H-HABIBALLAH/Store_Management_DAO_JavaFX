@@ -1,9 +1,8 @@
 package StoreManagement.IHM.Paiement;
 
-import StoreManagement.DAO.LigneDeCommande.LigneDeCommande;
 import StoreManagement.DAO.Paiement.Paiement;
-import StoreManagement.DAO.Produit.Produit;
 import StoreManagement.DAO.Vente.Vente;
+import StoreManagement.IHM.Compte.FormPaiementCardWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,7 +18,8 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 
 public class FormPaiementWindow {
-    int index = 0;
+    GetLastPaiementNumHandler getLastPaiementNumHandler;
+    long numPaiementInDB;
     int clickedPaiementIndex = 0;
     private Vente vente = null;
     private Paiement paiementClicked;
@@ -41,11 +41,11 @@ public class FormPaiementWindow {
 
     private Label venteDetailLabel = new Label("Détail de vente");
     private Label clientLabel = new Label("Client : ");
-    private Label numVenteLabel = new Label("Client : ");
+    private Label numVenteLabel = new Label("N° Vente : ");
     private Label dateLabel = new Label("Date : ");
     private Label montantLabel = new Label("Montant : ");
     private Label totalLabel = new Label("Total : ");
-    private Label totalPayeLabel = new Label("Total payé : ");
+    private Label totalPayeLabel = new Label("Total payé : 0.0");
     private Label resteLabel = new Label("Reste : ");
     private Label paiementLabel = new Label("Paiements");
     private Label paiementDetailLabel = new Label("Détail de paiements");
@@ -53,7 +53,7 @@ public class FormPaiementWindow {
     private TextField numeroPaiementInput = new TextField();
     private DatePicker dateInput = new DatePicker();
     private TextField montantInput = new TextField();
-    private String s[] = { "Espèce", "Chèque"};
+    private String s[] = { "Espèce", "Chèque", "Carte"};
     private ChoiceBox choiceBox = new ChoiceBox(FXCollections.observableArrayList(s));
 
 
@@ -85,11 +85,12 @@ public class FormPaiementWindow {
 
     private void addNodesToPane(){
         venteDetailLabelGridPane.add(venteDetailLabel,0,0);
-        venteDetailInfoGridPane.add(clientLabel,0,1);
-        venteDetailInfoGridPane.add(dateLabel,0,2);
-        venteDetailInfoGridPane.add(totalLabel,0,3);
-        venteDetailInfoGridPane.add(totalPayeLabel,0,4);
-        venteDetailInfoGridPane.add(resteLabel,0,5);
+        venteDetailInfoGridPane.add(numVenteLabel,0,1);
+        venteDetailInfoGridPane.add(clientLabel,0,2);
+        venteDetailInfoGridPane.add(dateLabel,0,3);
+        venteDetailInfoGridPane.add(totalLabel,0,4);
+        venteDetailInfoGridPane.add(totalPayeLabel,0,5);
+        venteDetailInfoGridPane.add(resteLabel,0,6);
         venteDetailGridPane.add(venteDetailLabelGridPane,0,0);
         venteDetailGridPane.add(venteDetailInfoGridPane,0,1);
 
@@ -118,6 +119,16 @@ public class FormPaiementWindow {
         root.add(rightGridPane,1,0);
     }
 
+    private void updatePaiementInput(){
+        getLastPaiementNumHandler = new GetLastPaiementNumHandler();
+        numPaiementInDB = getLastPaiementNumHandler.getNum();
+        this.numeroPaiementInput.setText(String.valueOf(numPaiementInDB+1));
+        numeroPaiementInput.setDisable(true);
+        montantInput.clear();
+        dateInput.setValue(null);
+        choiceBox.getSelectionModel().clearSelection();
+    }
+
     private void addStylesToNodes(){
         scene.getStylesheets().add("/StoreManagement/style.css");
         enregistrerButton.getStyleClass().add("btn");
@@ -127,6 +138,7 @@ public class FormPaiementWindow {
         ajouterCommandeButton.getStyleClass().add("btn");
         supprimerCommandeButton.getStyleClass().add("btn");
 
+        numVenteLabel.setStyle("-fx-font-size: 20;");
         clientLabel.setStyle("-fx-font-size: 20;");
         dateLabel.setStyle("-fx-font-size: 20; ");
         totalLabel.setStyle("-fx-font-size: 20; ");
@@ -173,6 +185,20 @@ public class FormPaiementWindow {
         return new Paiement(numero, date, montant, type, vente);
     }
 
+    public void addPaiementLine(){
+        Paiement paiement = createPaiementFromInputs();
+        new AddPaiementHandler(vente, paiement);
+        paiementObservableList.add(paiement);
+        updateVenteDetailsInfos();
+        updatePaiementColmuns();
+        addPaimentColumnsToTableView(paiementObservableList);
+        updatePaiementInput();
+    }
+
+    public TextField getMontantInput() {
+        return montantInput;
+    }
+
     private void addEventsToNodes(){
         paiementTable.setOnMouseClicked((MouseEvent e) ->{
             if(e.getClickCount() == 1){
@@ -182,18 +208,17 @@ public class FormPaiementWindow {
         });
 
         enregistrerButton.setOnAction(e->{
-            Paiement paiement = createPaiementFromInputs();
-            new AddPaiementHandler(vente,paiement);
-            paiementObservableList.add(paiement);
-            updateVenteDetailsInfos();
-            updatePaiementColmuns();
-            addPaimentColumnsToTableView(paiementObservableList);
+            if(choiceBox.getSelectionModel().isSelected(2)) {
+                FormPaiementCardWindow formPaiementCardWindow = new FormPaiementCardWindow(montantInput.getText(),this);
+                }
+            else
+                addPaiementLine();
         });
     }
 
     private void initiWindow(){
         window.setWidth(1100);
-        window.setHeight(700);
+        window.setHeight(800);
         window.setTitle("Gestion des ventes");
         window.getIcons().add(new Image("icone.png"));
         window.setScene(scene);
@@ -231,12 +256,14 @@ public class FormPaiementWindow {
 
     public FormPaiementWindow(Vente vente) {
         this.vente = vente;
+        updateVenteDetailsInfos();
+        updatePaiementInput();
+        resteLabel = new Label("Reste : "+vente.getTotal());
         initiWindow();
         addStylesToNodes();
         addPaimentColumnsToTableView(paiementObservableList);
         updatePaiementColmuns();
         updateVenteDetailsInfos();
-        //listPaiementHandler.updateObservableProduitsList();
         addNodesToPane();
         addEventsToNodes();
         window.show();

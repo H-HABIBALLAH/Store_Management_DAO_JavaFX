@@ -259,7 +259,6 @@ public class FormVenteWindow {
 
         supprimerCommandeButton.setOnAction(e->{
             vente.getLigneCommandeList().remove(clickedCommandeIndex);
-            System.out.println(vente.getLigneCommandeList());
             updateTotalValue();
             commandeObservableList.remove(ligneDeCommandeClicked);
             updateCommandeColmuns();

@@ -92,7 +92,7 @@ public class ListPaiementWindow {
     }
 
     private void initiWindow(){
-        window.setWidth(1070);
+        window.setWidth(1170);
         window.setHeight(750);
         window.setTitle("Liste des Paiements");
         window.getIcons().add(new Image("icone.png"));
